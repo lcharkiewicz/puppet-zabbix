@@ -16,6 +16,7 @@ class zabbix::agent (
   $version                = 'present',
   $enable                 = true,
   $start                  = true,
+  $is_20_version          = true,
   # general parameters
   $pid_file               = $zabbix::params::agent_pid_file,
   $log_file               = $zabbix::params::agent_log_file,

@@ -38,12 +38,12 @@
 class zabbix {
 
   # TODO
-  # zabbix_agent.conf
-  # zabbix_snmptrap in Centos
   # zabbix_server
   # zabbix_proxy
   # docs
   # error handling
+  # tests
+  # Windows
   # beautify the code ;)
 
 }
