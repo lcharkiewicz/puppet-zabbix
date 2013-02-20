@@ -9,8 +9,7 @@
 # Mandatory: yes
 # Default:
 # Server=
-
-Server=127.0.0.1
+Server=<%= scope.lookupvar('zabbix::agent::zabbix_server') %>
 
 ############ ADVANCED PARAMETERS #################
 
@@ -20,6 +19,9 @@ Server=127.0.0.1
 # Mandatory: no
 # Range:
 # Default:
+<% if @agent_alias %>
+Alias=<%= @agent_alias %>
+<% end %>
 
 ### Option: Timeout
 #	Spend no more than Timeout seconds on processing
@@ -28,6 +30,7 @@ Server=127.0.0.1
 # Range: 1-30
 # Default:
 # Timeout=3
+Timeout=<%= scope.lookupvar('zabbix::agent::timeout') %>
 
 ### Option: Include
 #	You may include individual files or all files in a directory in the configuration file.
@@ -38,6 +41,7 @@ Server=127.0.0.1
 
 # Include=/etc/zabbix/zabbix_agentd.userparams.conf
 # Include=/etc/zabbix/zabbix_agentd/
+Include=<%= scope.lookupvar('zabbix::agent::include') %>
 
 ####### USER-DEFINED MONITORED PARAMETERS #######
 
@@ -49,6 +53,7 @@ Server=127.0.0.1
 # Mandatory: no
 # Default:
 # UnsafeUserParameters=0
+UnsafeUserParameters=<%= scope.lookupvar('zabbix::agent::unsafe_user_parameters') %>
 
 ### Option: UserParameter
 #	User-defined parameter to monitor. There can be several user-defined parameters.
@@ -65,3 +70,7 @@ Server=127.0.0.1
 #UserParameter=mysql.slowqueries,mysqladmin -uroot status|cut -f5 -d":"|cut -f1 -d"O"
 #UserParameter=mysql.qps,mysqladmin -uroot status|cut -f9 -d":"
 #UserParameter=mysql.version,mysql -V
+<% if @user_parameter %>
+<% user_parameter.each do |parameter| %>UserParameter=<%= parameter %>
+<% end %>
+<% end %>

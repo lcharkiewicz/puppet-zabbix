@@ -50,7 +50,9 @@ DebugLevel=<%= scope.lookupvar('zabbix::agent::debug_level') %>
 # Mandatory: no
 # Default:
 # SourceIP=
-SourceIP=<%= scope.lookupvar('zabbix::agent::source_ip') %>
+<% if @source_ip %>
+SourceIP=<%= @source_ip %>
+<% end %>
 
 ### Option: EnableRemoteCommands
 #	Whether remote commands from Zabbix server are allowed.
@@ -96,8 +98,9 @@ Server=<%= scope.lookupvar('zabbix::agent::zabbix_server') %>
 # Mandatory: no
 # Default:
 # ServerActive=
-# TODO
-#ServerActive=<%= scope.lookupvar('zabbix::agent::source_ip') %>
+<% if @zabbix_server_active %>
+ServerActive=<%= @zabbix_server_active %>
+<% end %>
 
 ### Option: Hostname
 #	Unique, case sensitive hostname.
@@ -194,8 +197,9 @@ AllowRoot=<%= scope.lookupvar('zabbix::agent::allow_root') %>
 # Mandatory: no
 # Range:
 # Default:
-# TODO - undef
-#Alias=<%= scope.lookupvar('zabbix::agent::agent_alias') %>
+<% if @agent_alias %>
+Alias=<%= @agent_alias %>
+<% end %>
 
 ### Option: StartAgents
 #	Number of pre-forked instances of zabbix_agentd that process passive checks.
@@ -237,7 +241,7 @@ Include=<%= scope.lookupvar('zabbix::agent::include') %>
 # Range: 0-1
 # Default:
 # UnsafeUserParameters=0
-#UnsafeUserParameters=<%= scope.lookupvar('zabbix::agent::unsafe_user_parameters') %>
+UnsafeUserParameters=<%= scope.lookupvar('zabbix::agent::unsafe_user_parameters') %>
 
 ### Option: UserParameter
 #	User-defined parameter to monitor. There can be several user-defined parameters.
@@ -248,4 +252,7 @@ Include=<%= scope.lookupvar('zabbix::agent::include') %>
 # Mandatory: no
 # Default:
 # UserParameter=
-#UserParameter=<%= scope.lookupvar('zabbix::agent::user_parameter') %>
+<% if @user_parameter %>
+<% user_parameter.each do |parameter| %>UserParameter=<%= parameter %>
+<% end %>
+<% end %>

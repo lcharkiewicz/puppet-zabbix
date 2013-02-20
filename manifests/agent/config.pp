@@ -37,6 +37,11 @@
 #
 class zabbix::agent::config {
 
+  $active_checks = $zabbix::agent::active_checks
+  $source_ip = $zabbix::agent::source_ip
+  $agent_alias = $zabbix::agent::agent_alias
+  $user_parameter = $zabbix::agent::user_parameter
+
   file { $zabbix::params::agent_include:
     ensure  => directory,
     owner   => 'root',

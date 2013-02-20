@@ -17,8 +17,10 @@
 #
 class zabbix::params {
   ### General parameters
-  $agent_debug_level           = 3
-  $agent_source_ip              = ''
+  $agent_server                 = undef
+  $agent_server_active          = undef
+  $agent_debug_level            = 3
+  $agent_source_ip              = undef
   $agent_enable_remote_commands = 0
   $agent_log_remote_commands    = 0
   $agent_hostname               = $::hostname # passive checks
@@ -30,11 +32,11 @@ class zabbix::params {
   $agent_buffer_size            = 100
   $agent_max_lines_per_second   = 100
   $agent_allow_root             = 0
-  $agent_alias                  = '' # advanced params
+  $agent_alias                  = undef # advanced params
   $agent_start_agents           = 3
   $agent_timeout                = 3
   $agent_unsafe_user_parameters = 0 # user defined monitored parameters
-  $agent_user_parameter         = ''
+  $agent_user_parameter         = undef
 
   # Server jest brany z $zabbix_server
   # TODO - add if which would set ServerActive
@@ -51,13 +53,12 @@ class zabbix::params {
       $server_package_name = 'zabbix-server'
       $server_service_name = 'zabbix-server'
       ### General parameters
-      $agentd_pid_file = "/var/run/zabbix/zabbix_agentd.pid"
-      $agentd_log_file = "/var/log/zabbix/zabbix_agentd.log"
+      $agentd_pid_file = '/var/run/zabbix/zabbix_agentd.pid'
+      $agentd_log_file = '/var/log/zabbix/zabbix_agentd.log'
       $agentd_log_file_size = 0
-      # passive checks 
+      # passive checks
       $agent_disable_passive = 0
       # active checks
-      # brakuje TODO $agent_server_active - podany w parametrze
       $agent_disable_active = 0
       $agent_server_port = 10051
       # advanced params
@@ -78,8 +79,8 @@ class zabbix::params {
       $server_package_name = 'zabbix-server'
       $server_service_name = 'zabbix-server'
       ### General parameters
-      $agent_pid_file = "/var/run/zabbix/zabbix_agentd.pid"
-      $agent_log_file = "/var/log/zabbix/zabbix_agentd.log"
+      $agent_pid_file = '/var/run/zabbix/zabbix_agentd.pid'
+      $agent_log_file = '/var/log/zabbix/zabbix_agentd.log'
       $agent_log_file_size = 0
       # advanced params
       $agent_include = '/etc/zabbix/zabbix_agentd.conf.d/'
@@ -96,8 +97,8 @@ class zabbix::params {
       $server_service_name = 'zabbix-server'
 
       ### General parameters
-      $agentd_pid_file = "/var/run/zabbix/zabbix-agentd.pid"
-      $agentd_log_file = "/var/log/zabbix/zabbix-agentd.log"
+      $agentd_pid_file = '/var/run/zabbix/zabbix-agentd.pid'
+      $agentd_log_file = '/var/log/zabbix/zabbix-agentd.log'
       $agentd_log_file_size = 1
       # advanced params
       $agent_include = '/etc/zabbix/zabbix-agentd.conf.d/'
