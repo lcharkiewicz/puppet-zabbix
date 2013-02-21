@@ -65,11 +65,11 @@ class zabbix::params {
   $db_user                    = 'zabbix'
   $db_password                = undef
   $db_port                    = 3306 # 3306 for mysql, for pgsql
-  $proxy_proxy_local_buffer         = 0
-  $proxy_proxy_offline_buffer       = 1
-  $proxy_heartbeat_frequency        = 60
-  $proxy_config_frequency           = 3600
-  $proxy_data_sender_frequency      = 1
+  $proxy_local_buffer         = 0
+  $proxy_offline_buffer       = 1
+  $heartbeat_frequency        = 60
+  $config_frequency           = 3600
+  $data_sender_frequency      = 1
   $start_pollers              = 5
   $start_ipmi_pollers         = 0
   $start_pollers_unreachable  = 1
@@ -138,7 +138,7 @@ class zabbix::params {
           $server_smtp_trapper_file  = '/tmp/zabbix_traps.tmp'
           $server_start_snmp_trapper = 0
           $server_alert_scripts_path = '/var/lib/zabbixsrv/alertscripts'
-          $server_extrernal_scripts  = '/var/lib/zabbixsrv/externalscripts'
+          $server_external_scripts  = '/var/lib/zabbixsrv/externalscripts'
         }
 
         false, default: {
