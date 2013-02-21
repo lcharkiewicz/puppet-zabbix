@@ -1,4 +1,4 @@
-# == Class: zabbix::server::install
+# == Class: zabbix::proxy:service
 #
 # Full description of class zabbix here.
 #
@@ -35,8 +35,17 @@
 #
 # Copyright 2011 Your name here, unless otherwise noted.
 #
-class zabbix::server::install {
-  package { $zabbix::params::server_package_name:
-    ensure => $zabbix::server::version,
+class zabbix::proxy::service {
+
+  $ensure = $zabbix::proxy::start ? {
+    true => running, false => stopped, default => running
   }
+
+  service { $zabbix::params::proxy_service_name:
+    ensure      => $ensure,
+    #hassstatus => true,
+    #hasrestart => true,
+    enable      => $zabbix::proxy::enable,
+  }
+
 }

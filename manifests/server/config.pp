@@ -1,4 +1,4 @@
-# == Class: zabbix
+# == Class: zabbix::server::config
 #
 # Full description of class zabbix here.
 #
@@ -37,15 +37,21 @@
 #
 class zabbix::server::config {
 
-  file { '/etc/zabbix/zabbix-server.conf':
+  $active_checks = $zabbix::server::active_checks
+
+  file { $zabbix::params::include:
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+  }
+
+  file { $zabbix::params::server_config_file:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template('zabbix/zabbix-server.conf.erb'),
-    #source => 'puppet:///modules/zabbix/etc/zabbix.conf',
-    require => Class['zabbix::server::install'],
-    notify  => Class['zabbix::server::service'],
+    content => template($zabbix::params::server_config_template),
   }
 
 }

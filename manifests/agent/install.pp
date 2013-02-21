@@ -1,4 +1,4 @@
-# == Class: zabbix
+# == Class: zabbix::agent::install
 #
 # Full description of class zabbix here.
 #

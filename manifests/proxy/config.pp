@@ -1,4 +1,4 @@
-# == Class: zabbix::server::install
+# == Class: zabbix::proxy::config
 #
 # Full description of class zabbix here.
 #
@@ -35,8 +35,27 @@
 #
 # Copyright 2011 Your name here, unless otherwise noted.
 #
-class zabbix::server::install {
-  package { $zabbix::params::server_package_name:
-    ensure => $zabbix::server::version,
+class zabbix::proxy::config {
+
+  $source_ip        = $zabbix::proxy::source_ip
+  $db_schema        = $zabbix::proxy::db_schema
+  $db_password      = $zabbix::proxy::db_password
+  $ssh_key_location = $zabbix::proxy::ssh_key_location
+  $include          = $zabbix::proxy::include
+
+  #  file { $zabbix::params::include:
+  #    ensure  => directory,
+  #    owner   => 'root',
+  #    group   => 'root',
+  #    mode    => '0755',
+  #  } ->
+
+  file { $zabbix::params::proxy_config_file:
+    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template($zabbix::params::proxy_config_template),
   }
+
 }

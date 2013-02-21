@@ -1,4 +1,4 @@
-# == Class: zabbix
+# == Class: zabbix::server::service
 #
 # Full description of class zabbix here.
 #
@@ -37,12 +37,15 @@
 #
 class zabbix::server::service {
 
-  service { $zabbix::params::zabbix_server_service_name:
-    ensure      => running,
+  $ensure = $zabbix::server::start ? {
+    true => running, false => stopped, default => running
+  }
+
+  service { $zabbix::params::server_service_name:
+    ensure      => $ensure,
     #hassstatus => true,
     #hasrestart => true,
-    enable      => true,
-    require     => Class['zabbix::server::config'],
+    enable      => $zabbix::server::enable,
   }
 
 }

@@ -1,4 +1,4 @@
-# == Class: zabbix::server::install
+# == Class: zabbix::proxy::install
 #
 # Full description of class zabbix here.
 #
@@ -35,8 +35,11 @@
 #
 # Copyright 2011 Your name here, unless otherwise noted.
 #
-class zabbix::server::install {
-  package { $zabbix::params::server_package_name:
-    ensure => $zabbix::server::version,
+class zabbix::proxy::install {
+
+  package { $zabbix::params::proxy_package_name:
+    ensure => $zabbix::proxy::version,
+    #    notify => Class['zabbix::proxy::config']
   }
+
 }
