@@ -121,38 +121,33 @@ class zabbix::params {
     }
 
     /(RedHat|CentOS|Fedora)/: {
-      case $zabbix::agent::is_20_version {
-        true: {
-          $agent_package_name        = 'zabbix20-agent'
-          # TODO - zabbix-server-{sqlite3,mysql,pgsql}
-          $server_package_name       = 'zabbix20-server'
-          # TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
-          $proxy_package_name        = 'zabbix20-proxy'
-          $web_package_name          = 'zabbix20-web'
-          $server_pid_file           = '/var/run/zabbix/zabbix_server.pid'
-          $server_java_gateway       = undef
-          $server_java_gateway_port  = 10052
-          $server_start_java_pollers = 0
-          $server_smtp_trapper_file  = '/tmp/zabbix_traps.tmp'
-          $server_start_snmp_trapper = 0
-          $server_alert_scripts_path = '/var/lib/zabbixsrv/alertscripts'
-          $server_external_scripts   = '/var/lib/zabbixsrv/externalscripts'
-          $proxy_external_scripts    = '/etc/zabbix/externalscripts'
-        }
-
-        false, default: {
-          $agent_package_name        = 'zabbix-agent'
-          # TODO - zabbix-server-{sqlite3,mysql,pgsql}
-          $server_package_name       = 'zabbix-server'
-          # TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
-          $proxy_package_name        = 'zabbix-proxy'
-          $web_package_name          = 'zabbix-web'
-          $server_pid_file           = '/var/run/zabbix/zabbix.pid'
-          $server_alert_scripts_path = '/var/lib/zabbix/'
-          $server_extrernal_scripts  = '/etc/zabbix/externalscripts'
-          $proxy_external_scripts    = '/etc/zabbix/externalscripts'
-        }
-      }
+      # TODO include epel?
+      $agent_package_name        = 'zabbix20-agent'
+      # TODO - zabbix-server-{sqlite3,mysql,pgsql}
+      $server_package_name       = 'zabbix20-server'
+      # TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
+      $proxy_package_name        = 'zabbix20-proxy'
+      $web_package_name          = 'zabbix20-web'
+      $server_pid_file           = '/var/run/zabbix/zabbix_server.pid'
+      $server_java_gateway       = undef
+      $server_java_gateway_port  = 10052
+      $server_start_java_pollers = 0
+      $server_smtp_trapper_file  = '/tmp/zabbix_traps.tmp'
+      $server_start_snmp_trapper = 0
+      $server_alert_scripts_path = '/var/lib/zabbixsrv/alertscripts'
+      $server_external_scripts   = '/var/lib/zabbixsrv/externalscripts'
+      $proxy_external_scripts    = '/etc/zabbix/externalscripts'
+      # ver 1.8
+      #$agent_package_name        = 'zabbix-agent'
+      ## TODO - zabbix-server-{sqlite3,mysql,pgsql}
+      #$server_package_name       = 'zabbix-server'
+      ## TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
+      #$proxy_package_name        = 'zabbix-proxy'
+      #$web_package_name          = 'zabbix-web'
+      #$server_pid_file           = '/var/run/zabbix/zabbix.pid'
+      #$server_alert_scripts_path = '/var/lib/zabbix/'
+      #$server_extrernal_scripts  = '/etc/zabbix/externalscripts'
+      #$proxy_external_scripts    = '/etc/zabbix/externalscripts'
 
       $db_socket              = '/var/lib/mysql/mysql.sock'
       $agent_service_name     = 'zabbix-agent'
