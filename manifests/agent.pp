@@ -146,7 +146,7 @@ class zabbix::agent (
   $log_remote_commands    = $zabbix::params::log_remote_commands,
   # passive checks
   $hostname               = $zabbix::params::hostname,
-  $hostname_item          = $zabbix::params::hostname_item,
+  $hostname_item          = $zabbix::params::hostname_item,#commented in template
   $listen_port            = $zabbix::params::agent_listen_port,
   $listen_ip              = $zabbix::params::listen_ip,
   # active checks

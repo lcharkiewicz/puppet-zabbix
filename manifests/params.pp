@@ -88,13 +88,13 @@ class zabbix::params {
       $db_socket                    = '/tmp/mysql.sock'
       $agent_package_name            = 'zabbix-agent'
       $agent_service_name            = 'zabbix-agent'
-      $agent_config_file             = '/etc/zabbix/zabbix-agent.conf'
+      $agent_config_file             = '/etc/zabbix/zabbix_agent.conf'
       $agent_config_template         = 'zabbix/zabbix_agent.conf.erb'
-      $agentd_config_file            = '/etc/zabbix/zabbix-agentd.conf'
+      $agentd_config_file            = '/etc/zabbix/zabbix_agentd.conf'
       $agentd_config_template        = 'zabbix/zabbix_agentd.conf.erb'
-      $agentd_pid_file               = '/var/run/zabbix/zabbix_agentd.pid'
-      $agentd_log_file               = '/var/log/zabbix/zabbix_agentd.log'
-      $agentd_log_file_size          = 0
+      $agent_pid_file               = '/var/run/zabbix/zabbix_agentd.pid'
+      $agent_log_file               = '/var/log/zabbix-agent/zabbix_agentd.log'
+      $agent_log_file_size          = 0
       $agent_disable_passive         = 0
       $agent_disable_active          = 0
       $agent_server_port             = 10051
@@ -121,13 +121,15 @@ class zabbix::params {
     }
 
     /(RedHat|CentOS|Fedora)/: {
-      # TODO include epel?
+      ## TODO include epel?
       $agent_package_name        = 'zabbix20-agent'
       # TODO - zabbix-server-{sqlite3,mysql,pgsql}
       $server_package_name       = 'zabbix20-server'
       # TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
       $proxy_package_name        = 'zabbix20-proxy'
       $web_package_name          = 'zabbix20-web'
+      $agent_config_file         = '/etc/zabbix_agent.conf'
+      $agentd_config_file        = '/etc/zabbix_agentd.conf'
       $server_pid_file           = '/var/run/zabbix/zabbix_server.pid'
       $server_java_gateway       = undef
       $server_java_gateway_port  = 10052
@@ -148,13 +150,13 @@ class zabbix::params {
       #$server_alert_scripts_path = '/var/lib/zabbix/'
       #$server_extrernal_scripts  = '/etc/zabbix/externalscripts'
       #$proxy_external_scripts    = '/etc/zabbix/externalscripts'
+      #$agent_config_file         = '/etc/zabbix/zabbix_agent.conf'
+      #$agentd_config_file        = '/etc/zabbix/zabbix_agentd.conf'
 
       $db_socket              = '/var/lib/mysql/mysql.sock'
       $agent_service_name     = 'zabbix-agent'
       $agent_include_folder   = '/etc/zabbix/zabbix_agentd.conf.d'
-      $agent_config_file      = '/etc/zabbix/zabbix_agent.conf'
       $agent_config_template  = 'zabbix/zabbix_agent.conf.erb'
-      $agentd_config_file     = '/etc/zabbix/zabbix_agentd.conf'
       $agentd_config_template = 'zabbix/zabbix_agentd.conf.erb'
       $agent_pid_file         = '/var/run/zabbix/zabbix_agentd.pid'
       $agent_log_file         = '/var/log/zabbix/zabbix_agentd.log'
