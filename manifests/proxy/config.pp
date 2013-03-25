@@ -43,6 +43,27 @@ class zabbix::proxy::config {
   $ssh_key_location = $zabbix::proxy::ssh_key_location
   $include          = $zabbix::proxy::include
 
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+    if $zabbix::proxy::is_20_version {
+      $proxy_config_file = $zabbix::params::proxy20_config_file
+      $agentd_config_file = $zabbix::params::agentd20_config_file
+
+      # file { $agentd_config_file:
+      #   ensure  => present,
+      #   owner   => 'root',
+      #   group   => 'root',
+      #   mode    => '0644',
+      #   content => template($zabbix::params::agentd_config_template),
+      # }
+    }
+    else {
+      $proxy_config_file = $zabbix::params::proxy_config_file
+    }
+  }
+  else {
+    $proxy_config_file = $zabbix::params::proxy_config_file
+  }
+
   #  file { $zabbix::params::include:
   #    ensure  => directory,
   #    owner   => 'root',
@@ -50,12 +71,13 @@ class zabbix::proxy::config {
   #    mode    => '0755',
   #  } ->
 
-  file { $zabbix::params::proxy_config_file:
+  file { $proxy_config_file:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
     content => template($zabbix::params::proxy_config_template),
   }
+
 
 }

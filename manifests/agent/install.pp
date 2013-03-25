@@ -36,8 +36,21 @@
 # Copyright 2011 Your name here, unless otherwise noted.
 #
 class zabbix::agent::install {
-  package { $zabbix::params::agent_package_name:
-    ensure => $zabbix::agent::version,
-    #    notify => Class['zabbix::agent::config']
+
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+    if $zabbix::agent::is_20_version {
+      $package_name = $zabbix::params::agent20_package_name
+    }
+    else {
+      $package_name = $zabbix::params::agent_package_name
+    }
   }
+  else {
+      $package_name = $zabbix::params::agent_package_name
+  }
+
+  package { $package_name:
+    ensure => $zabbix::agent::version,
+  }
+
 }

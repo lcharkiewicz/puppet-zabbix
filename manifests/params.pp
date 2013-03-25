@@ -107,7 +107,7 @@ class zabbix::params {
       $server_log_file               = '/var/log/zabbix-server/zabbix_server.log'
       $server_log_file_size          = 1
       $server_alert_scripts_path     = '/etc/zabbix/alert.d/'
-      $proxy_package_name           = 'zabbix-proxy'# TODO - zabbix-server-{sqlite3,mysql,pgsql}
+      $proxy_package_name           = 'zabbix-proxy'
       $proxy_service_name           = 'zabbix-proxy'
       $proxy_config_file            = '/etc/zabbix/zabbix-proxy.conf'
       $proxy_config_template        = 'zabbix/zabbix_proxy.conf.erb'
@@ -121,37 +121,38 @@ class zabbix::params {
     }
 
     /(RedHat|CentOS|Fedora)/: {
-      ## TODO include epel?
-      $agent_package_name        = 'zabbix20-agent'
-      # TODO - zabbix-server-{sqlite3,mysql,pgsql}
-      $server_package_name       = 'zabbix20-server'
-      # TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
-      $proxy_package_name        = 'zabbix20-proxy'
-      $web_package_name          = 'zabbix20-web'
-      $agent_config_file         = '/etc/zabbix_agent.conf'
-      $agentd_config_file        = '/etc/zabbix_agentd.conf'
-      $server_pid_file           = '/var/run/zabbix/zabbix_server.pid'
-      $server_java_gateway       = undef
-      $server_java_gateway_port  = 10052
-      $server_start_java_pollers = 0
-      $server_smtp_trapper_file  = '/tmp/zabbix_traps.tmp'
-      $server_start_snmp_trapper = 0
-      $server_alert_scripts_path = '/var/lib/zabbixsrv/alertscripts'
-      $server_external_scripts   = '/var/lib/zabbixsrv/externalscripts'
+      # 2.0
+      $agent20_package_name        = 'zabbix20-agent'
+      $agent20_config_file = '/etc/zabbix_agent.conf'
+      $agentd20_config_file = '/etc/zabbix_agentd.conf'
+      $proxy20_package_name        = 'zabbix20-proxy'
+      $proxy20_config_file = '/etc/zabbix_proxy.conf'
+      #$proxy20_external_scripts    = '/etc/zabbix/externalscripts'
+      $proxy20_external_scripts    = '/var/lib/zabbixsrv/externalscripts'
+      $server20_package_name       = 'zabbix20-server'
+      $server20_pid_file           = '/var/run/zabbix/zabbix_server.pid'
+      $server20_java_gateway       = undef
+      $server20_java_gateway_port  = 10052
+      $server20_start_java_pollers = 0
+      $server20_smtp_trapper_file  = '/tmp/zabbix_traps.tmp'
+      $server20_start_snmp_trapper = 0
+      $server20_alert_scripts_path = '/var/lib/zabbixsrv/alertscripts'
+      $server20_external_scripts   = '/var/lib/zabbixsrv/externalscripts'
+      $web20_package_name          = 'zabbix20-web'
+      # 1.8
+      $agent_package_name        = 'zabbix-agent'
+      $agent_config_file         = '/etc/zabbix/zabbix_agent.conf'
+      $agentd_config_file        = '/etc/zabbix/zabbix_agentd.conf'
+      $proxy_package_name        = 'zabbix-proxy'
+      $proxy_config_file      = '/etc/zabbix/zabbix_proxy.conf'
       $proxy_external_scripts    = '/etc/zabbix/externalscripts'
-      # ver 1.8
-      #$agent_package_name        = 'zabbix-agent'
-      ## TODO - zabbix-server-{sqlite3,mysql,pgsql}
-      #$server_package_name       = 'zabbix-server'
-      ## TODO - zabbix-proxy-{sqlite3,mysql,pgsql}
-      #$proxy_package_name        = 'zabbix-proxy'
-      #$web_package_name          = 'zabbix-web'
-      #$server_pid_file           = '/var/run/zabbix/zabbix.pid'
-      #$server_alert_scripts_path = '/var/lib/zabbix/'
-      #$server_extrernal_scripts  = '/etc/zabbix/externalscripts'
-      #$proxy_external_scripts    = '/etc/zabbix/externalscripts'
-      #$agent_config_file         = '/etc/zabbix/zabbix_agent.conf'
-      #$agentd_config_file        = '/etc/zabbix/zabbix_agentd.conf'
+      $server_package_name       = 'zabbix-server'
+      $server_pid_file           = '/var/run/zabbix/zabbix.pid'
+      $server_alert_scripts_path = '/var/lib/zabbix/'
+      $server_extrernal_scripts  = '/etc/zabbix/externalscripts'
+      $web_package_name          = 'zabbix-web'
+      ## TODO include epel?
+      # TODO - zabbix-server-{sqlite3,mysql,pgsql}
 
       $db_socket              = '/var/lib/mysql/mysql.sock'
       $agent_service_name     = 'zabbix-agent'
@@ -168,7 +169,6 @@ class zabbix::params {
       $server_log_file        = '/var/log/zabbix/zabbix_server.log'
       $server_log_file_size   = 0
       $proxy_service_name    = 'zabbix-proxy'
-      $proxy_config_file      = '/etc/zabbix/zabbix_proxy.conf'
       $proxy_config_template  = 'zabbix/zabbix_proxy.conf.erb'
       $proxy_pid_file         = '/var/run/zabbix/zabbix_proxy.pid'
       $proxy_log_file         = '/var/log/zabbix/zabbix_proxy.log'

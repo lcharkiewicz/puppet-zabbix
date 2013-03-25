@@ -37,9 +37,20 @@
 #
 class zabbix::proxy::install {
 
-  package { $zabbix::params::proxy_package_name:
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+    if $zabbix::proxy::is_20_version {
+      $package_name = "${zabbix::params::proxy20_package_name}-${zabbix::proxy::db_type}"
+    }
+    else {
+      $package_name = "${zabbix::params::proxy_package_name}-${zabbix::proxy::db_type}"
+    }
+  }
+  else {
+    $package_name = $zabbix::params::proxy_package_name
+  }
+
+  package { $package_name:
     ensure => $zabbix::proxy::version,
-    #    notify => Class['zabbix::proxy::config']
   }
 
 }

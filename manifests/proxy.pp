@@ -18,9 +18,6 @@
 # [*start*]
 #   Start service after installation.
 #
-# [*is_20_version*]
-#   Install Zabbix 2.0 (currently reelated only with redhat family)
-#
 # [*proxy_mode*]
 #   Proxy operating mode
 #   0 - proxy in the active mode
@@ -211,6 +208,7 @@ class zabbix::proxy (
   $log_file_size             = $zabbix::params::proxy_log_file_size,
   $debug_level               = $zabbix::params::debug_level,
   $pid_file                  = $zabbix::params::proxy_pid_file,
+  $db_type                   = 'sqlite3',
   $db_host                   = $zabbix::params::db_host,# TODO type of database
   $db_name                   = $zabbix::params::db_name,# TODO db_schema
   $db_user                   = $zabbix::params::db_user,

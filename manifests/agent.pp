@@ -28,7 +28,7 @@
 #   Start service after installation.
 #
 # [*is_20_version*]
-#   Install Zabbix 2.0 (currently reelated only with redhat family)
+#   Install Zabbix 2.0 (currently related only with Red Hat family)
 #
 # [*pid_file*]
 #   Name of PID file.
@@ -136,6 +136,7 @@ class zabbix::agent (
   $version                = 'present',
   $enable                 = true,
   $start                  = true,
+  $is_20_version          = true,
   # general parameters
   $pid_file               = $zabbix::params::agent_pid_file,
   $log_file               = $zabbix::params::agent_log_file,

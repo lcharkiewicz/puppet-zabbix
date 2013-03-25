@@ -42,6 +42,21 @@ class zabbix::agent::config {
   $agent_alias = $zabbix::agent::agent_alias
   $user_parameter = $zabbix::agent::user_parameter
 
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+    if $zabbix::agent::is_20_version {
+      $agent_config_file = $zabbix::params::agent20_config_file
+      $agentd_config_file = $zabbix::params::agentd20_config_file
+    }
+    else {
+      $agent_config_file = $zabbix::params::agent_config_file
+      $agentd_config_file = $zabbix::params::agentd_config_file
+    }
+  }
+  else {
+      $agent_config_file = $zabbix::params::agent_config_file
+      $agentd_config_file = $zabbix::params::agentd_config_file
+  }
+
   file { $zabbix::params::agent_include:
     ensure  => directory,
     owner   => 'root',
@@ -49,7 +64,7 @@ class zabbix::agent::config {
     mode    => '0755',
   }
 
-  file { $zabbix::params::agent_config_file:
+  file { $agent_config_file:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
@@ -57,7 +72,7 @@ class zabbix::agent::config {
     content => template($zabbix::params::agent_config_template),
   }
 
-  file { $zabbix::params::agentd_config_file:
+  file { $agentd_config_file:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
