@@ -245,7 +245,13 @@ class zabbix::proxy (
   $ssh_key_location          = $zabbix::params::ssh_key_location,
   $log_slow_queries          = $zabbix::params::log_slow_queries,
   $tmp_dir                   = $zabbix::params::tmp_dir,
-  $include                   = $zabbix::params::include
+  $include                   = $zabbix::params::include,
+  # 2.0
+  $java_gateway              = $zabbix::params::java_gateway, #TODO check
+  $java_gateway_port         = $zabbix::params::java_gateway_port, #TODO check
+  $start_java_pollers        = $zabbix::params::start_java_pollers, #TODO check
+  $smtp_trapper_file         = $zabbix::params::smtp_trapper_file
+
 ) inherits zabbix::params {
 
   class { 'zabbix::proxy::install': } ->

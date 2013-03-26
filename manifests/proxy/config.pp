@@ -43,10 +43,23 @@ class zabbix::proxy::config {
   $ssh_key_location = $zabbix::proxy::ssh_key_location
   $include          = $zabbix::proxy::include
 
+  if $zabbix::proxy::db_type == 'sqlite3' {
+    $db_name = $zabbix::params::db_name_sqlite
+  }
+  elif $zabbix::proxy::db_type == 'mysql' or $zabbix::proxy::db_type == 'postgres' {
+    $db_name = $zabbix::params::db_name_sqlite
+  }
+  else {
+    fail('dupa jasia') #TODO
+  }
+
+  # I know it could be much simpler, but this is only for Red Hat family
   if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
     if $zabbix::proxy::is_20_version {
       $proxy_config_file = $zabbix::params::proxy20_config_file
+      $proxy_config_template = $zabbix::params::proxy20_config_template
       $agentd_config_file = $zabbix::params::agentd20_config_file
+      $external_scripts = $zabbix::params::20external_scripts
 
       # file { $agentd_config_file:
       #   ensure  => present,
@@ -58,10 +71,14 @@ class zabbix::proxy::config {
     }
     else {
       $proxy_config_file = $zabbix::params::proxy_config_file
+      $proxy_config_template = $zabbix::params::proxy_config_template
+      $external_scripts = $zabbix::params::external_scripts
     }
   }
   else {
     $proxy_config_file = $zabbix::params::proxy_config_file
+    $proxy_config_template = $zabbix::params::proxy_config_template
+    $external_scripts = $zabbix::params::external_scripts
   }
 
   #  file { $zabbix::params::include:
@@ -76,7 +93,7 @@ class zabbix::proxy::config {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template($zabbix::params::proxy_config_template),
+    content => template($proxy_config_template),
   }
 
 

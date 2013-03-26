@@ -53,4 +53,19 @@ class zabbix::proxy::install {
     ensure => $zabbix::proxy::version,
   }
 
+  # init (via exec)
+  # === Sqlite
+  # sqlite3 /var/lib/sqlite/zabbix.db < /usr/doc/zabbix-proxy-${version}/create/schema/schema.sql
+  # === MySQL
+  # shell> mysql -u<username> -p<password>
+  # mysql> create database zabbix character set utf8;
+  # mysql> quit;
+  # shell> mysql -u<username> -p<password> zabbix < database/mysql/schema.sql
+  # PostgreSQL
+  # hell> psql -U <username>
+  # psql> create database zabbix;
+  # psql> \q
+  # shell> cd database/postgresql
+  # shell> psql -U <username> zabbix < schema.sql
+
 }
