@@ -239,7 +239,7 @@ class zabbix::proxy (
   $unreachable_period        = $zabbix::params::unreachable_period,
   $unavailable_delay         = $zabbix::params::unavailable_delay,
   $unreachable_delay         = $zabbix::params::unreachable_delay,
-  $external_scripts          = $zabbix::params::proxy_external_scripts,# TODO check it!
+  $external_scripts          = $zabbix::params::external_scripts,# TODO check it!
   $fping_location            = $zabbix::params::fping_location,
   $fping6_location           = $zabbix::params::fping6_location,
   $ssh_key_location          = $zabbix::params::ssh_key_location,

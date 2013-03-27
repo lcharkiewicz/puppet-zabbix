@@ -43,14 +43,11 @@ class zabbix::proxy::config {
   $ssh_key_location = $zabbix::proxy::ssh_key_location
   $include          = $zabbix::proxy::include
 
+
   if $zabbix::proxy::db_type == 'sqlite3' {
-    $db_name = $zabbix::params::db_name_sqlite
-  }
-  elif $zabbix::proxy::db_type == 'mysql' or $zabbix::proxy::db_type == 'postgres' {
-    $db_name = $zabbix::params::db_name_sqlite
-  }
-  else {
-    fail('dupa jasia') #TODO
+    if  $zabbix::proxy::db_name == 'zabbix' {
+      $db_name = $zabbix::params::db_name_sqlite
+    }
   }
 
   # I know it could be much simpler, but this is only for Red Hat family
@@ -90,9 +87,9 @@ class zabbix::proxy::config {
 
   file { $proxy_config_file:
     ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
+    owner   => 'zabbix',
+    group   => 'zabbix',
+    mode    => '0640',
     content => template($proxy_config_template),
   }
 

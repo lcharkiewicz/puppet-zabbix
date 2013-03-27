@@ -139,7 +139,7 @@ class zabbix::params {
       $java_gateway_port  = 10052 # proxy takze
       $start_java_pollers = 0 # proxy takze
       $smtp_trapper_file  = '/tmp/zabbix_traps.tmp' # proxy takze
-      $20external_scripts   = '/var/lib/zabbixsrv/externalscripts'
+      $z20external_scripts   = '/var/lib/zabbixsrv/externalscripts'
       # 1.8
       $agent_package_name        = 'zabbix-agent'
       $agent_config_file         = '/etc/zabbix/zabbix_agent.conf'
@@ -150,7 +150,7 @@ class zabbix::params {
       $server_package_name       = 'zabbix-server'
       $server_pid_file           = '/var/run/zabbix/zabbix.pid'
       $server_alert_scripts_path = '/var/lib/zabbix/'
-      $extrernal_scripts  = '/etc/zabbix/externalscripts'
+      $external_scripts  = '/etc/zabbix/externalscripts'
       $web_package_name          = 'zabbix-web'
       ## TODO include epel?
 

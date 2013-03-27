@@ -49,8 +49,41 @@ class zabbix::proxy::install {
     $package_name = $zabbix::params::proxy_package_name
   }
 
+  case $zabbix::proxy::db_type {
+    'sqlite3': {
+      if  $zabbix::proxy::db_name == 'zabbix' {
+        $db_name = $zabbix::params::db_name_sqlite3
+      }
+      else {
+        $db_name = $zabbix::proxy::db_name
+      }
+
+      $command = "sqlite3 ${db_name} < /usr/share/doc/zabbix-proxy-sqlite3-*/create/schema/sqlite.sql"
+      $creates = $db_name
+    }
+    'mysql': {
+      $command = "mysql -u root ${zabbix::proxy::db_name} < /usr/share/doc/zabbix-proxy-sqlite3-*/create/schema/sqlite.sql"
+    }
+    'postgres': {
+      $command = "mysql -u root ${zabbix::proxy::db_name} < /usr/share/doc/zabbix-proxy-*/create/schema/schema.sql"
+    }
+    default: {
+      fail('Wrong database type!')
+    }
+  }
+
   package { $package_name:
     ensure => $zabbix::proxy::version,
+    # before => Exec['proxy_db_init']
+  } ->
+
+  exec {'proxy_db_init':
+    command   => $command,
+    provider  => 'shell',
+    # onlyif  => "redhat equivalent of: dpkg --get-selections | grep zabbix-proxy"
+    # creates => $db_name,
+    path      => '/usr/bin:/usr/local/bin',
+    # require => Package[$package_name]
   }
 
   # init (via exec)
