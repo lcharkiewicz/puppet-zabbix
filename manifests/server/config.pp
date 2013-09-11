@@ -37,7 +37,28 @@
 #
 class zabbix::server::config {
 
-  $active_checks = $zabbix::server::active_checks
+  $source_ip        = $zabbix::server::source_ip
+  $db_password      = $zabbix::server::db_password
+  $ssh_key_location = $zabbix::server::ssh_key_location
+  $include          = $zabbix::server::include
+
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+    if $zabbix::server::is_20_version {
+      $server_config_file  = $zabbix::params::server20_config_file
+    }
+    else {
+      $server_config_file  = $zabbix::params::server_config_file
+    }
+  }
+  else {
+      $server_config_file  = $zabbix::params::server_config_file
+  }
+
+  if $zabbix::server::db_type == 'sqlite3' {
+    if  $zabbix::server::db_name == 'zabbix' {
+      $db_name = $zabbix::params::db_name_sqlite
+    } 
+  } 
 
   file { $zabbix::params::include:
     ensure  => directory,
@@ -47,11 +68,12 @@ class zabbix::server::config {
   }
 
   file { $zabbix::params::server_config_file:
+# TODO server20_config_file?
     ensure  => present,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content => template($zabbix::params::server_config_template),
+    content => template($server_config_template),
   }
 
 }

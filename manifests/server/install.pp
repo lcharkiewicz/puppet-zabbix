@@ -36,6 +36,19 @@
 # Copyright 2011 Your name here, unless otherwise noted.
 #
 class zabbix::server::install {
+
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+    if $zabbix::server::is_20_version {
+      $package_name = $zabbix::params::server20_package_name
+    }
+    else {
+      $package_name = $zabbix::params::server_package_name
+    }
+  }
+  else {
+      $package_name = $zabbix::params::server_package_name
+  }
+
   package { $zabbix::params::server_package_name:
     ensure => $zabbix::server::version,
   }

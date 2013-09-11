@@ -156,14 +156,14 @@ class zabbix::agent (
   $buffer_size            = $zabbix::params::buffer_size,
   $max_lines_per_second   = $zabbix::params::max_lines_per_second,
   $allow_root             = $zabbix::params::allow_root,
-  # advanced params
+  # advanced parameters
   $include                = $zabbix::params::agent_include,
   $agent_alias            = $zabbix::params::alias,
   $start_agents           = $zabbix::params::start_agents,
   $timeout                = $zabbix::params::timeout,
   # user defined monitored parameters
   $unsafe_user_parameters = $zabbix::params::unsafe_user_parameters,
-  $user_parameter        = $zabbix::params::user_parameter
+  $user_parameter         = $zabbix::params::user_parameter
 ) inherits zabbix::params {
 
   class { 'zabbix::agent::install': } ->

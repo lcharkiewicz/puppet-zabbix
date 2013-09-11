@@ -213,8 +213,7 @@ class zabbix::proxy (
   $db_name                   = $zabbix::params::db_name,# TODO db_schema
   $db_user                   = $zabbix::params::db_user,
   $db_password               = $zabbix::params::db_password,
-  # TODO
-  $db_schema                 = undef,
+  $db_schema                 = undef, #TODO
   $db_socket                 = $zabbix::params::db_socket,
   $db_port                   = $zabbix::params::db_port,
   $proxy_local_buffer        = $zabbix::params::proxy_local_buffer,# proxy specyfic parameters

@@ -86,7 +86,7 @@
 #   How often Zabbix will perform housekeeping procedure (in hours).
 #   Housekeeping is removing unnecessary information from history, alert, and alarms tables.
 #
-# [*maxhousekeeper_delete*]
+# [*max_housekeeper_delete*]
 #   The table "housekeeper" contains "tasks" for housekeeping procedure in the format:
 #   [housekeeperid], [tablename], [field], [value].
 #   No more than 'MaxHousekeeperDelete' rows (corresponding to [tablename], [field], [value])
@@ -191,46 +191,69 @@
 #
 # Copyright 2011 Your name here, unless otherwise noted.
 #
-class zabbix::agent (
-  $zabbix_server          = $zabbix::params::agent_server,
-  $zabbix_server_active   = $zabbix::params::agent_server_active,
-  $version                = 'present',
-  $enable                 = true,
-  $start                  = true,
-  $is_20_version          = true,
+class zabbix::server (
+  $version                   = 'present',
+  $enable                    = true,
+  $start                     = true,
+  $is_20_version             = true,
   # general parameters
-  $pid_file               = $zabbix::params::agent_pid_file,
-  $log_file               = $zabbix::params::agent_log_file,
-  $log_file_size          = $zabbix::params::agent_log_file_size,
-  $debug_level            = $zabbix::params::agent_debug_level,
-  $source_ip              = $zabbix::params::agent_source_ip,
-  $enable_remote_commands = $zabbix::params::agent_enable_remote_commands,
-  $log_remote_commands    = $zabbix::params::agent_log_remote_commands,
-  # passive checks
-  $hostname               = $zabbix::params::agent_hostname,
-  $hostname_item          = $zabbix::params::agent_hostname_item,
-  $listen_port            = $zabbix::params::agent_listen_port,
-  $listen_ip              = $zabbix::params::agent_listen_ip,
-  # active checks
-  $refresh_active_checks  = $zabbix::params::agent_refresh_active_checks,
-  $buffer_send            = $zabbix::params::agent_buffer_send,
-  $buffer_size            = $zabbix::params::agent_buffer_size,
-  $max_lines_per_second   = $zabbix::params::agent_max_lines_per_second,
-  $allow_root             = $zabbix::params::agent_allow_root,
-  # advanced params
-  $include                = $zabbix::params::agent_include,
-  $agent_alias            = $zabbix::params::agent_alias,
-  $start_agents           = $zabbix::params::agent_start_agents,
-  $timeout                = $zabbix::params::agent_timeout,
-  # user defined monitored parameters
-  $unsafe_user_parameters = $zabbix::params::agent_unsafe_user_parameters,
-  $user_parameter        = $zabbix::params::agent_user_parameter
+  $node_id                   = $zabbix::params::node_id,
+  $listen_port               = $zabbix::params::listen_port,
+  $source_ip                 = $zabbix::params::source_ip,
+  $log_file                  = $zabbix::params::server_log_file,
+  $log_file_size             = $zabbix::params::server_log_file_size,
+  $debug_level               = $zabbix::params::debug_level,
+  $pid_file                  = $zabbix::params::server_pid_file,
+  $db_type                   = $zabbix::params::db_type,#sqlite3
+  $db_host                   = $zabbix::params::db_host,
+  $db_name                   = $zabbix::params::db_name, # TODO mandatory
+  $db_schema                 = $zabbix::params::db_schema, #TODO !!!
+  $db_user                   = $zabbix::params::db_user,
+  $db_password               = $zabbix::params::db_password,
+  $db_socket                 = $zabbix::params::db_socket,
+  $db_port                   = $zabbix::params::db_port,
+  # advanced parameters
+  $start_pollers             = $zabbix::params::start_pollers,
+  $start_ipmi_pollers        = $zabbix::params::start_ipmi_pollers,
+  $start_pollers_unreachable = $zabbix::params::start_pollers_unreachable,
+  $start_trappers            = $zabbix::params::start_trappers,
+  $start_pingers             = $zabbix::params::start_pingers,
+  $start_discoverers         = $zabbix::params::start_discoverers,
+  $start_http_pollers        = $zabbix::params::start_http_pollers,
+  $listen_ip                 = $zabbix::params::listen_ip,
+  $housekeeping_frequency    = $zabbix::params::housekeeping_frequency,
+  $max_housekeeper_delete    = $zabbix::params::max_housekeeper_delete,
+  $disable_housekeeping      = $zabbix::params::disable_housekeeping,
+  $sender_frequency          = $zabbix::params::sender_frequency,
+  $cache_size                = $zabbix::params::cache_size,
+  $cache_update_frequency    = $zabbix::params::cache_update_frequency,
+  $start_db_syncers          = $zabbix::params::start_db_syncers,
+  $history_cache_size        = $zabbix::params::history_cache_size,
+  $trend_cache_size          = $zabbix::params::server_trend_cache_size, #TODO !!!!
+  $history_text_cache_size   = $zabbix::params::history_text_cache_size,
+  $node_no_events            = $zabbix::params::node_no_events,
+  $node_no_history           = $zabbix::params::node_no_history,
+  $timeout                   = $zabbix::params::timeout,
+  $trapper_timeout           = $zabbix::params::trapper_timeout,
+  $unreachable_period        = $zabbix::params::unreachable_period,
+  $unavailable_delay         = $zabbix::params::unavailable_delay,
+  $unreachable_delay         = $zabbix::params::unreachable_delay,
+  $alert_scripts_path        = $zabbix::params::server_alert_scripts_path,
+  $external_scripts          = $zabbix::params::external_scripts,
+  $fping_location            = $zabbix::params::fping_location,
+  $fping6_Location           = $zabbix::params::fping6_location,
+  $ssh_key_location          = $zabbix::params::ssh_key_location,
+  $log_slow_queries          = $zabbix::params::log_slow_queries,
+  $tmp_dir                   = $zabbix::params::tmp_dir,
+  $include                   = $zabbix::params::include,
+  $start_proxy_pollers       = $zabbix::params::start_proxy_pollers,
+  $proxy_config_frequency    = $zabbix::params::proxy_config_frequency,
+  $proxy_data_frequency      = $zabbix::params::proxy_data_frequency,
 ) inherits zabbix::params {
 
-  class { 'zabbix::agent::install': } ->
-  class { 'zabbix::agent::config': } ~>
-  class { 'zabbix::agent::service': } ->
-  Class['zabbix::agent']
+  class { 'zabbix::server::install': } ->
+  class { 'zabbix::server::config': } ~>
+  class { 'zabbix::server::service': } ->
+  Class['zabbix::server']
 
 }
-

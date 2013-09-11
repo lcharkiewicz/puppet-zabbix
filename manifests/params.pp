@@ -16,7 +16,7 @@
 # Copyright 2011 Your name here, unless otherwise noted.
 #
 class zabbix::params {
-  ### common params for all services
+  ### common parameters for all services
   $zabbix_server             = undef# general parameters
   $source_ip                 = undef
   $debug_level               = 3
@@ -25,6 +25,7 @@ class zabbix::params {
   $hostname                  = $::hostname
   $hostname_item             = 'system.hostname'
   $listen_port               = 10051
+  $db_type                   = 'sqlite3'
   $db_host                   = 'localhost'
   $db_name                   = 'zabbix'
   $db_name_sqlite3         = '/var/lib/zabbix/zabbix.db'# TODO check for mysql and pgsql
@@ -131,6 +132,7 @@ class zabbix::params {
       $proxy20_config_file = '/etc/zabbix_proxy.conf'
       #$proxy20_external_scripts    = '/etc/zabbix/externalscripts'
       $server20_package_name       = 'zabbix20-server'
+      $server20_config_template = 'zabbix/zabbix20_server.conf.erb'
       $server20_pid_file           = '/var/run/zabbix/zabbix_server.pid'
       $server20_start_snmp_trapper = 0 # proxy takze
       $server20_alert_scripts_path = '/var/lib/zabbixsrv/alertscripts'
