@@ -256,6 +256,7 @@ class zabbix::server (
   }
 
   class { 'zabbix::server::install': } ->
+  class { 'zabbix::server::dbinit': } ->
   class { 'zabbix::server::config': } ~>
   class { 'zabbix::server::service': } ->
   Class['zabbix::server']

@@ -52,4 +52,5 @@ class zabbix::server::install {
   package { $package_name:
     ensure => $zabbix::server::version,
   }
+
 }
