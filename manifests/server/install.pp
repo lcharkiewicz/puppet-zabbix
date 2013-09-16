@@ -49,7 +49,7 @@ class zabbix::server::install {
       $package_name = $zabbix::params::server_package_name
   }
 
-  package { $zabbix::params::server_package_name:
+  package { $package_name:
     ensure => $zabbix::server::version,
   }
 }

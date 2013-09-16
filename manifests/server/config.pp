@@ -57,22 +57,24 @@ class zabbix::server::config {
   if $zabbix::server::db_type == 'sqlite3' {
     if  $zabbix::server::db_name == 'zabbix' {
       $db_name = $zabbix::params::db_name_sqlite
-    } 
-  } 
-
-  file { $zabbix::params::include:
-    ensure  => directory,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
+    }
   }
 
-  file { $zabbix::params::server_config_file:
+  if $zabbix::params::include {
+    file { $zabbix::params::include:
+      ensure  => directory,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0755',
+    }
+  }
+
+  file {$server_config_file:
 # TODO server20_config_file?
     ensure  => present,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
+    owner   => 'zabbixsrv',
+    group   => 'zabbix',
+    mode    => '0640',
     content => template($server_config_template),
   }
 

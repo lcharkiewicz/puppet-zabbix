@@ -204,14 +204,14 @@ class zabbix::server (
   $log_file_size             = $zabbix::params::server_log_file_size,
   $debug_level               = $zabbix::params::debug_level,
   $pid_file                  = $zabbix::params::server_pid_file,
-  $db_type                   = $zabbix::params::db_type,#sqlite3
-  $db_host                   = $zabbix::params::db_host,
-  $db_name                   = $zabbix::params::db_name, # TODO mandatory
-  $db_schema                 = $zabbix::params::db_schema, #TODO !!!
-  $db_user                   = $zabbix::params::db_user,
-  $db_password               = $zabbix::params::db_password,
-  $db_socket                 = $zabbix::params::db_socket,
-  $db_port                   = $zabbix::params::db_port,
+  $db_type                   = $zabbix::params::server_db_type,#sqlite3
+  $db_host                   = $zabbix::params::server_db_host,
+  $db_name                   = $zabbix::params::server_db_name, # TODO mandatory
+  $db_schema                 = $zabbix::params::server_db_schema, #TODO !!!
+  $db_user                   = $zabbix::params::server_db_user,
+  $db_password               = $zabbix::params::server_db_password,
+  $db_socket                 = $zabbix::params::server_db_socket,
+  $db_port                   = $zabbix::params::server_db_port,
   # advanced parameters
   $start_pollers             = $zabbix::params::start_pollers,
   $start_ipmi_pollers        = $zabbix::params::start_ipmi_pollers,
@@ -250,6 +250,10 @@ class zabbix::server (
   $proxy_config_frequency    = $zabbix::params::proxy_config_frequency,
   $proxy_data_frequency      = $zabbix::params::proxy_data_frequency,
 ) inherits zabbix::params {
+
+  if $::db_passwd == undef {
+    fail('DB password is not defined.')
+  }
 
   class { 'zabbix::server::install': } ->
   class { 'zabbix::server::config': } ~>
