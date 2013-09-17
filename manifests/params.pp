@@ -25,7 +25,7 @@ class zabbix::params {
   $hostname                  = $::hostname
   $hostname_item             = 'system.hostname'
   $listen_port               = 10051
-  $server_db_type            = 'sqlite3'
+  $server_db_type            = 'mysql'
   $server_db_host            = 'localhost'
   $server_db_name            = 'zabbix'
   $server_db_name_sqlite3    = '/var/lib/zabbix/zabbix.db'# TODO check for mysql and pgsql

@@ -251,7 +251,7 @@ class zabbix::server (
   $proxy_data_frequency      = $zabbix::params::proxy_data_frequency,
 ) inherits zabbix::params {
 
-  if $::db_passwd == undef {
+  if $db_password == undef {
     fail('DB password is not defined.')
   }
 
