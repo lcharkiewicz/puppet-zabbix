@@ -1,19 +1,11 @@
 # == Class: zabbix
 #
-# Parameters userd for for zabbix agent and server configuration
+# Parameters userd for for zabbix agent, proxy and server configuration
 #
 # === Variables
 #
 # Most of them are named very similiar to variables configuration files.
 # Should be obvious enough :)
-#
-# === Authors
-#
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2011 Your name here, unless otherwise noted.
 #
 class zabbix::params {
   ### common parameters for all services
@@ -28,10 +20,10 @@ class zabbix::params {
   $server_db_type            = 'mysql'
   $server_db_host            = 'localhost'
   $server_db_name            = 'zabbix'
-  $server_db_name_sqlite3    = '/var/lib/zabbix/zabbix.db'# TODO check for mysql and pgsql
   $server_db_user            = 'zabbix'
   $server_db_password        = undef
   $server_db_port            = 3306 # 3306 for mysql, for pgsql
+  $server_db_schema          = undef
   $proxy_db_type             = 'sqlite3'
   $proxy_db_host             = 'localhost'
   $proxy_db_name             = 'zabbix'
@@ -91,6 +83,7 @@ class zabbix::params {
   $heartbeat_frequency       = 60
   $config_frequency          = 3600
   $data_sender_frequency     = 1
+  $trend_cache_size          = '4M'
 
   case $::operatingsystem {
     default, /(Ubuntu|Debian)/: {
@@ -149,7 +142,7 @@ class zabbix::params {
       $java_gateway_port  = 10052 # proxy takze
       $start_java_pollers = 0 # proxy takze
       $smtp_trapper_file  = '/tmp/zabbix_traps.tmp' # proxy takze
-      $z20external_scripts   = '/var/lib/zabbixsrv/externalscripts'
+      $server20_external_scripts   = '/var/lib/zabbixsrv/externalscripts' #TODO add case in config
       # 1.8
       $agent_package_name        = 'zabbix-agent'
       $agent_config_file         = '/etc/zabbix/zabbix_agent.conf'
@@ -162,8 +155,7 @@ class zabbix::params {
       $server_alert_scripts_path = '/var/lib/zabbix/'
       $external_scripts  = '/etc/zabbix/externalscripts'
       $web_package_name          = 'zabbix-web'
-      ## TODO include epel?
-
+      # common
       $db_socket              = '/var/lib/mysql/mysql.sock'
       $agent_service_name     = 'zabbix-agent'
       $agent_include_folder   = '/etc/zabbix/zabbix_agentd.conf.d'

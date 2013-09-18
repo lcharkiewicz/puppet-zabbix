@@ -100,7 +100,9 @@ DBName=<%= scope.lookupvar('zabbix::server::db_name') %>
 # Mandatory: no
 # Default:
 # DBSchema=
-DBSchema=<%= scope.lookupvar('zabbix::server::db_schema') %>
+<% if @db_schema %>
+DBSchema=<%= @db_schema %>
+<% end %>
 
 ### Option: DBUser
 #       Database user. Ignored for SQLite.
@@ -118,9 +120,7 @@ DBUser=<%= scope.lookupvar('zabbix::server::db_user') %>
 # Mandatory: no
 # Default:
 # DBPassword=
-<% if @db_password %>
-DBPassword=<%= @db_password %>
-<% end %>
+DBPassword=<%= scope.lookupvar('zabbix::server::db_password') %>
 
 ### Option: DBSocket
 #       Path to MySQL socket.
@@ -213,7 +213,9 @@ StartHTTPPollers=<%= scope.lookupvar('zabbix::server::start_http_pollers') %>
 # Mandatory: no
 # Default:
 # JavaGateway=
-JavaGateway=<%= scope.lookupvar('zabbix::server::java_gateway') %>
+<% if @java_gateway %>
+JavaGateway=<%= @java_gateway %>
+<% end %>
 
 ### Option: JavaGatewayPort
 #       Port that Zabbix Java gateway listens on.

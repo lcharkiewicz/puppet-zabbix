@@ -1,4 +1,21 @@
-# only for RHEL at the moment
+# == Class: zabbix::web
+#
+# Installs zabbix-web and provides vhost config for httpd.
+#
+# RedHat family only!
+#
+# === Parameters
+
+# [*server_name*]
+#
+# [*server_aliases*]
+# Array of ServerAlias
+#
+# [*db_type*]
+# 'mysql' or 'pgsql' only
+#
+# === Authors
+# Leszek Charkiewicz <leszek@charkiewicz.net>
 #
 class zabbix::web (
   $server_name = $::fqdn,

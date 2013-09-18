@@ -186,11 +186,7 @@
 #
 # === Authors
 #
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2011 Your name here, unless otherwise noted.
+# Leszek Charkiewicz <leszek@charkiewicz.net>
 #
 class zabbix::proxy (
   $zabbix_server             = $zabbix::params::zabbix_server,

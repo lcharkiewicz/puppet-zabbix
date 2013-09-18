@@ -2,8 +2,9 @@
 #
 # Installs zabbix-server and cofigures it.
 #
+# RedHat family only!
+#
 # === Parameters
-
 # [*node_id*]
 #   Unique NodeID in distributed setup.
 #   0 - standalone server
@@ -183,13 +184,10 @@
 # [*proxy_data_frequency*]
 #   How often Zabbix Server requests history data from a Zabbix Proxy in seconds.
 #   This parameter is used only for proxies in the passive mode.
+#
 # === Authors
 #
-# Author Name <author@domain.com>
-#
-# === Copyright
-#
-# Copyright 2011 Your name here, unless otherwise noted.
+# Leszek Charkiewicz <leszek@charkiewicz.net>
 #
 class zabbix::server (
   $version                   = 'present',
@@ -204,14 +202,14 @@ class zabbix::server (
   $log_file_size             = $zabbix::params::server_log_file_size,
   $debug_level               = $zabbix::params::debug_level,
   $pid_file                  = $zabbix::params::server_pid_file,
-  $db_type                   = $zabbix::params::server_db_type,#sqlite3
+  $db_type                   = $zabbix::params::server_db_type,
   $db_host                   = $zabbix::params::server_db_host,
   $db_name                   = $zabbix::params::server_db_name, # TODO mandatory
-  $db_schema                 = $zabbix::params::server_db_schema, #TODO !!!
+  $db_schema                 = $zabbix::params::server_db_schema,
   $db_user                   = $zabbix::params::server_db_user,
   $db_password               = $zabbix::params::server_db_password,
-  $db_socket                 = $zabbix::params::server_db_socket,
   $db_port                   = $zabbix::params::server_db_port,
+  $db_socket                 = $zabbix::params::db_socket,
   # advanced parameters
   $start_pollers             = $zabbix::params::start_pollers,
   $start_ipmi_pollers        = $zabbix::params::start_ipmi_pollers,
@@ -229,7 +227,7 @@ class zabbix::server (
   $cache_update_frequency    = $zabbix::params::cache_update_frequency,
   $start_db_syncers          = $zabbix::params::start_db_syncers,
   $history_cache_size        = $zabbix::params::history_cache_size,
-  $trend_cache_size          = $zabbix::params::server_trend_cache_size, #TODO !!!!
+  $trend_cache_size          = $zabbix::params::trend_cache_size,
   $history_text_cache_size   = $zabbix::params::history_text_cache_size,
   $node_no_events            = $zabbix::params::node_no_events,
   $node_no_history           = $zabbix::params::node_no_history,
@@ -249,10 +247,21 @@ class zabbix::server (
   $start_proxy_pollers       = $zabbix::params::start_proxy_pollers,
   $proxy_config_frequency    = $zabbix::params::proxy_config_frequency,
   $proxy_data_frequency      = $zabbix::params::proxy_data_frequency,
+  $java_gateway              = $zabbix::params::java_gatway,
+  $java_gateway_port         = $zabbix::params::java_gateway_port,
+  $start_java_pollers        = $zabbix::params::start_java_pollers,
+  $smtp_trapper_file         = $zabbix::params::smtp_trapper_file,
+
 ) inherits zabbix::params {
 
   if $db_password == undef {
     fail('DB password is not defined.')
+  }
+
+  # TODO - move it to params.pp
+  # default values for params from 2.0 version
+  if $is_20_version {
+    $start_snmp_trapper = 0
   }
 
   class { 'zabbix::server::install': } ->
