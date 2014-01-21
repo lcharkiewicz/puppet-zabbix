@@ -1,53 +1,70 @@
 #
 # Zabbix monitoring system php web frontend
 #
+
+# Alias /zabbix /usr/share/zabbix
+
 <VirtualHost *:80>
 
     ServerName <%= @server_name %>
-    ServerAlias <%= @server_alias %>
-
-    DocumentRoot "/usr/share/zabbix"
+    #ServerAlias <%= @server_aliases %>
+    <%if @server_aliases.is_a? Array -%>
+        <% @server_aliases.each do |name| -%><%= "    ServerAlias #{name}\n" %><% end -%>
+    <% elsif @server_aliases != '' -%>
+        <%= "    ServerAlias #{@server_aliases}" -%>
+    <% end -%>"
 
     <Directory "/usr/share/zabbix">
         Options FollowSymLinks
         AllowOverride None
+        Order allow,deny
+        Allow from all
 
-        <IfModule mod_authz_core.c>
-          # Apache 2.4
-          Require all granted
-        </IfModule>
-
-        <IfModule !mod_authz_core.c>
-          # Apache 2.2
-          Order allow,deny
-          Allow from all
-        </IfModule>
-
+    <%if @php_settings -%>
+        php_value max_execution_time 300
+        php_value memory_limit 128M
+        php_value post_max_size 16M
+        php_value upload_max_filesize 2M
+        php_value max_input_time 300
+        <%if @php_timezone != '' -%>
+        <%="php_value date.timezone #{@php_timezone}" -%>
+        <% end -%>
+    <% end -%>
     </Directory>
 
-    <Directory ~ "^/usr/share/zabbix/(conf|api|include)/">
-        <IfModule mod_authz_core.c>
-          # Apache 2.4
-          Require all denied
-        </IfModule>
-
-        <IfModule !mod_authz_core.c>
-          # Apache 2.2
-          Order deny,allow
-          Deny from all
-        </IfModule>
-
+    <Directory "/usr/share/zabbix/conf">
+        Order deny,allow
+        Deny from all
         <files *.php>
-          <IfModule mod_authz_core.c>
-            # Apache 2.4
-            Require all denied
-          </IfModule>
-
-          <IfModule !mod_authz_core.c>
             Order deny,allow
             Deny from all
-          </IfModule>
+        </files>
+    </Directory>
 
+    <Directory "/usr/share/zabbix/api">
+        Order deny,allow
+        Deny from all
+        <files *.php>
+            Order deny,allow
+            Deny from all
+        </files>
+    </Directory>
+
+    <Directory "/usr/share/zabbix/include">
+        Order deny,allow
+        Deny from all
+        <files *.php>
+            Order deny,allow
+            Deny from all
+        </files>
+    </Directory>
+
+    <Directory "/usr/share/zabbix/include/classes">
+        Order deny,allow
+        Deny from all
+        <files *.php>
+            Order deny,allow
+            Deny from all
         </files>
     </Directory>
 

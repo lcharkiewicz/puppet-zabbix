@@ -2,21 +2,14 @@
 #
 # RedHat family only!
 #
-class zabbix::server::install {
+# TODO
+# install mysql/pgsql package for connecting database
+class zabbix::server::install (
+){
 
-  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
-    if $zabbix::server::is_20_version {
-      $package_name = "${zabbix::params::server20_package_name}-${zabbix::server::db_type}"
-    }
-    else {
-      $package_name = "${zabbix::params::server_package_name}-${zabbix::server::db_type}"
-    }
-  }
-  else {
-      $package_name = "${zabbix::params::server_package_name}-${zabbix::server::db_type}"
-  }
+  $db_type = $zabbix::server::db_type
 
-  package { $package_name:
+  package { "${zabbix::params::server_package_name}-${db_type}":
     ensure => $zabbix::server::version,
   }
 

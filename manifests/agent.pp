@@ -27,8 +27,9 @@
 # [*start*]
 #   Start service after installation.
 #
-# [*is_20_version*]
-#   Install Zabbix 2.0 (currently related only with Red Hat family)
+#
+#
+# ##### GENERAL PARAMETERS #####
 #
 # [*pid_file*]
 #   Name of PID file.
@@ -62,6 +63,22 @@
 #   0 - disabled
 #   1 - enabled
 #
+#
+#
+# ##### PASSIVE CHECKS #####
+#
+# [*listen_port*]
+#   Agent will listen on this port for connections from the server.
+#
+# [*listen_ip*]
+#   List of comma delimited IP addresses that the agent should listen on.
+#
+# [*start_agents*]
+#   Number of pre-forked instances of zabbix_agentd that process passive checks.
+#
+#
+# ##### ACTIVE CHECKS #####
+#
 # [*hostname*]
 #   Unique, case sensitive hostname.
 #   Required for active checks and must match hostname as configured on the server.
@@ -71,11 +88,10 @@
 #   Item used for generating Hostname if it is undefined.
 #   Ignored if Hostname is defined.
 #
-# [*listen_port*]
-#   Agent will listen on this port for connections from the server.
+# TODO
+# [*host_metadata*]
+# [*host_metadata_item*]
 #
-# [*listen_ip*]
-#   List of comma delimited IP addresses that the agent should listen on.
 #
 # [*refresh_active_checks*]
 #   How often list of active checks is refreshed, in seconds.
@@ -99,17 +115,25 @@
 #   0 - do not allow
 #   1 - allow
 #
-# [*include*]
-#   You may include individual files or all files in a directory in the configuration file.
+#
+#
+# ##### ADVANCED PARAMETERS #####
 #
 # [*agent_alias*]
 #   Sets an alias for parameter. It can be useful to substitute long and complex parameter name with a smaller and simpler one.
 #
-# [*start_agents*]
-#   Number of pre-forked instances of zabbix_agentd that process passive checks.
-#
 # [*timeout*]
 #   Spend no more than Timeout seconds on processing
+#
+# TODO
+# [*allow_root*]
+#
+# [*include*]
+#   You may include individual files or all files in a directory in the configuration file.
+#
+#
+#
+# ##### USER DEFINED MONITORED PARAMETERS #####
 #
 # [*unsafe_user_parameters*]
 #   Allow all characters to be passed in arguments to user-defined parameters.
@@ -122,6 +146,14 @@
 #   Note that shell command must not return empty string or EOL only.
 #   See 'zabbix_agentd' directory for examples.
 #
+#
+#
+# ##### LOADABLE MODULES #####
+#
+# TODO
+# [*load_module_path*]
+# [*load_module*]
+#
 # === Authors
 #
 # Leszek Charkiewicz <leszek@charkiewicz.net>
@@ -132,36 +164,42 @@ class zabbix::agent (
   $version                = 'present',
   $enable                 = true,
   $start                  = true,
-  $is_20_version          = true,
   # general parameters
   $pid_file               = $zabbix::params::agent_pid_file,
   $log_file               = $zabbix::params::agent_log_file,
-  $log_file_size          = $zabbix::params::agent_log_file_size,
+  $log_file_size          = $zabbix::params::log_file_size,
   $debug_level            = $zabbix::params::debug_level,
   $source_ip              = $zabbix::params::source_ip,
   $enable_remote_commands = $zabbix::params::enable_remote_commands,
   $log_remote_commands    = $zabbix::params::log_remote_commands,
   # passive checks
-  $hostname               = $zabbix::params::hostname,
-  $hostname_item          = $zabbix::params::hostname_item,#commented in template
   $listen_port            = $zabbix::params::agent_listen_port,
   $listen_ip              = $zabbix::params::listen_ip,
+  $start_agents           = $zabbix::params::start_agents,
   # active checks
+  $hostname               = $zabbix::params::hostname,
+  $hostname_item          = $zabbix::params::hostname_item,
+  $host_metadata          = $zabbix::params::host_metadata,
+  $host_metadata_item     = $zabbix::params::host_metadata_item,
   $refresh_active_checks  = $zabbix::params::refresh_active_checks,
   $buffer_send            = $zabbix::params::buffer_send,
   $buffer_size            = $zabbix::params::buffer_size,
   $max_lines_per_second   = $zabbix::params::max_lines_per_second,
   $allow_root             = $zabbix::params::allow_root,
   # advanced parameters
-  $include                = $zabbix::params::agent_include,
-  $agent_alias            = $zabbix::params::alias,
-  $start_agents           = $zabbix::params::start_agents,
+  $agent_alias            = $zabbix::params::agent_alias,
   $timeout                = $zabbix::params::timeout,
+  $allow_root             = $zabbix::params::allow_root,
+  $include                = $zabbix::params::agent_include,
   # user defined monitored parameters
   $unsafe_user_parameters = $zabbix::params::unsafe_user_parameters,
-  $user_parameter         = $zabbix::params::user_parameter
+  $user_parameter         = $zabbix::params::user_parameter,
+  # loadable modules
+  $load_module_path       = $zabbix::params::load_module_path,
+  $load_module            = $zabbix::params::load_module,
 ) inherits zabbix::params {
 
+  class { 'zabbix::repo': } ->
   class { 'zabbix::agent::install': } ->
   class { 'zabbix::agent::config': } ~>
   class { 'zabbix::agent::service': } ->

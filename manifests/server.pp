@@ -5,6 +5,11 @@
 # RedHat family only!
 #
 # === Parameters
+#
+# [*db_type*]
+#   Type of database which Zabbix Server will use.
+#   'mysql' or 'pgsql'
+#
 # [*node_id*]
 #   Unique NodeID in distributed setup.
 #   0 - standalone server
@@ -193,22 +198,21 @@ class zabbix::server (
   $version                   = 'present',
   $enable                    = true,
   $start                     = true,
-  $is_20_version             = true,
+  $db_type                   = 'mysql',
   # general parameters
   $node_id                   = $zabbix::params::node_id,
   $listen_port               = $zabbix::params::listen_port,
   $source_ip                 = $zabbix::params::source_ip,
   $log_file                  = $zabbix::params::server_log_file,
-  $log_file_size             = $zabbix::params::server_log_file_size,
+  $log_file_size             = $zabbix::params::log_file_size,
   $debug_level               = $zabbix::params::debug_level,
   $pid_file                  = $zabbix::params::server_pid_file,
-  $db_type                   = $zabbix::params::server_db_type,
-  $db_host                   = $zabbix::params::server_db_host,
-  $db_name                   = $zabbix::params::server_db_name, # TODO mandatory
-  $db_schema                 = $zabbix::params::server_db_schema,
-  $db_user                   = $zabbix::params::server_db_user,
-  $db_password               = $zabbix::params::server_db_password,
-  $db_port                   = $zabbix::params::server_db_port,
+  $db_host                   = $zabbix::params::db_host,
+  $db_name                   = $zabbix::params::db_name, # TODO mandatory
+  $db_schema                 = $zabbix::params::db_schema,
+  $db_user                   = $zabbix::params::db_user,
+  $db_password               = $zabbix::params::db_password,
+  $db_port                   = $zabbix::params::db_port,
   $db_socket                 = $zabbix::params::db_socket,
   # advanced parameters
   $start_pollers             = $zabbix::params::start_pollers,
@@ -218,10 +222,18 @@ class zabbix::server (
   $start_pingers             = $zabbix::params::start_pingers,
   $start_discoverers         = $zabbix::params::start_discoverers,
   $start_http_pollers        = $zabbix::params::start_http_pollers,
+  $start_timers              = $zabbix::params::start_timers,
+  $java_gateway              = $zabbix::params::java_gatway,
+  $java_gateway_port         = $zabbix::params::java_gateway_port,
+  $start_java_pollers        = $zabbix::params::start_java_pollers,
+  $start_vmware_collectors   = $zabbix::params::start_vmware_collectors,
+  $vmware_frequency          = $zabbix::params::vmware_frequency,
+  $vmware_cache_size         = $zabbix::params::vmware_cache_size,
+  $smtp_trapper_file         = $zabbix::params::smtp_trapper_file,
+  $start_snmp_trapper        = $zabbix::params::start_snmp_trapper,
   $listen_ip                 = $zabbix::params::listen_ip,
   $housekeeping_frequency    = $zabbix::params::housekeeping_frequency,
   $max_housekeeper_delete    = $zabbix::params::max_housekeeper_delete,
-  $disable_housekeeping      = $zabbix::params::disable_housekeeping,
   $sender_frequency          = $zabbix::params::sender_frequency,
   $cache_size                = $zabbix::params::cache_size,
   $cache_update_frequency    = $zabbix::params::cache_update_frequency,
@@ -229,6 +241,7 @@ class zabbix::server (
   $history_cache_size        = $zabbix::params::history_cache_size,
   $trend_cache_size          = $zabbix::params::trend_cache_size,
   $history_text_cache_size   = $zabbix::params::history_text_cache_size,
+  $value_cache_size          = $zabbix::params::value_cache_size,
   $node_no_events            = $zabbix::params::node_no_events,
   $node_no_history           = $zabbix::params::node_no_history,
   $timeout                   = $zabbix::params::timeout,
@@ -236,32 +249,26 @@ class zabbix::server (
   $unreachable_period        = $zabbix::params::unreachable_period,
   $unavailable_delay         = $zabbix::params::unavailable_delay,
   $unreachable_delay         = $zabbix::params::unreachable_delay,
-  $alert_scripts_path        = $zabbix::params::server_alert_scripts_path,
+  $alert_scripts_path        = $zabbix::params::alert_scripts_path,
   $external_scripts          = $zabbix::params::external_scripts,
   $fping_location            = $zabbix::params::fping_location,
   $fping6_Location           = $zabbix::params::fping6_location,
   $ssh_key_location          = $zabbix::params::ssh_key_location,
   $log_slow_queries          = $zabbix::params::log_slow_queries,
   $tmp_dir                   = $zabbix::params::tmp_dir,
-  $include                   = $zabbix::params::include,
   $start_proxy_pollers       = $zabbix::params::start_proxy_pollers,
   $proxy_config_frequency    = $zabbix::params::proxy_config_frequency,
   $proxy_data_frequency      = $zabbix::params::proxy_data_frequency,
-  $java_gateway              = $zabbix::params::java_gatway,
-  $java_gateway_port         = $zabbix::params::java_gateway_port,
-  $start_java_pollers        = $zabbix::params::start_java_pollers,
-  $smtp_trapper_file         = $zabbix::params::smtp_trapper_file,
+  $allow_root                = $zabbix::params::allow_root,
+  $include                   = $zabbix::params::server_include,
+  # loadable modules
+  $load_module_path          = $zabbix::params::load_module_path,
+  $load_module               = $zabbix::params::load_module,
 
 ) inherits zabbix::params {
 
   if $db_password == undef {
     fail('DB password is not defined.')
-  }
-
-  # TODO - move it to params.pp
-  # default values for params from 2.0 version
-  if $is_20_version {
-    $start_snmp_trapper = 0
   }
 
   class { 'zabbix::server::install': } ->

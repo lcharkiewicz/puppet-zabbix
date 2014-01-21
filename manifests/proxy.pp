@@ -193,36 +193,46 @@ class zabbix::proxy (
   $version                   = 'present',
   $enable                    = true,
   $start                     = true,
-  $is_20_version             = true,
-  $proxy_mode                = $zabbix::params::proxy_mode,# general parameters
+  $proxy_mode                = $zabbix::params::proxy_mode,
+  # general parameters
   $server_port               = $zabbix::params::server_port,
   $hostname                  = $zabbix::params::hostname,
   $hostname_item             = $zabbix::params::hostname_item,
   $listen_port               = $zabbix::params::listen_port,
   $source_ip                 = $zabbix::params::source_ip,
   $log_file                  = $zabbix::params::proxy_log_file,
-  $log_file_size             = $zabbix::params::proxy_log_file_size,
+  $log_file_size             = $zabbix::params::log_file_size,
   $debug_level               = $zabbix::params::debug_level,
   $pid_file                  = $zabbix::params::proxy_pid_file,
-  $db_type                   = 'sqlite3',
   $db_host                   = $zabbix::params::db_host,# TODO type of database
   $db_name                   = $zabbix::params::db_name,# TODO db_schema
   $db_user                   = $zabbix::params::db_user,
   $db_password               = $zabbix::params::db_password,
-  $db_schema                 = undef, #TODO
+  $db_schema                 = $zabbix::params::db_schema,
   $db_socket                 = $zabbix::params::db_socket,
   $db_port                   = $zabbix::params::db_port,
-  $proxy_local_buffer        = $zabbix::params::proxy_local_buffer,# proxy specyfic parameters
+  $proxy_local_buffer        = $zabbix::params::proxy_local_buffer,
+  # proxy specyfic parameters
   $proxy_offline_buffer      = $zabbix::params::proxy_offline_buffer,
   $heartbeat_frequency       = $zabbix::params::heartbeat_frequency,
   $config_frequency          = $zabbix::params::config_frequency,
   $data_sender_frequency     = $zabbix::params::data_sender_frequency,
-  $start_pollers             = $zabbix::params::start_pollers,# advanced parameters
+  $start_pollers             = $zabbix::params::start_pollers,
+  # advanced parameters
   $start_ipmi_pollers        = $zabbix::params::start_ipmi_pollers,
   $start_pollers_unreachable = $zabbix::params::start_pollers_unreachable,
   $start_trappers            = $zabbix::params::start_trappers,
   $start_pingers             = $zabbix::params::start_pingers,
   $start_discoverers         = $zabbix::params::start_discoverers,
+  $start_http_pollers        = $zabbix::params::start_http_pollers,
+  $java_gateway              = $zabbix::params::java_gateway,
+  $java_gateway_port         = $zabbix::params::java_gateway_port,
+  $start_java_pollers        = $zabbix::params::start_java_pollers,
+  $start_vmware_collectors   = $zabbix::params::start_vmware_collectors,
+  $vmware_frequency          = $zabbix::params::vmware_frequency,
+  $vmware_cache_size         = $zabbix::params::vmware_cache_size,
+  $smtp_trapper_file         = $zabbix::params::smtp_trapper_file,
+  $start_snmp_trapper        = $zabbix::params::start_snmp_trapper,
   $listen_ip                 = $zabbix::params::listen_ip,
   $housekeeping_frequency    = $zabbix::params::housekeeping_frequency,
   $cache_size                = $zabbix::params::cache_size,
@@ -234,18 +244,16 @@ class zabbix::proxy (
   $unreachable_period        = $zabbix::params::unreachable_period,
   $unavailable_delay         = $zabbix::params::unavailable_delay,
   $unreachable_delay         = $zabbix::params::unreachable_delay,
-  $external_scripts          = $zabbix::params::external_scripts,# TODO check it!
+  $external_scripts          = $zabbix::params::external_scripts,
   $fping_location            = $zabbix::params::fping_location,
   $fping6_location           = $zabbix::params::fping6_location,
   $ssh_key_location          = $zabbix::params::ssh_key_location,
   $log_slow_queries          = $zabbix::params::log_slow_queries,
   $tmp_dir                   = $zabbix::params::tmp_dir,
   $include                   = $zabbix::params::include,
-  # 2.0
-  $java_gateway              = $zabbix::params::java_gateway, #TODO check
-  $java_gateway_port         = $zabbix::params::java_gateway_port, #TODO check
-  $start_java_pollers        = $zabbix::params::start_java_pollers, #TODO check
-  $smtp_trapper_file         = $zabbix::params::smtp_trapper_file
+  # loadable modules
+  $load_module_path          = $zabbix::params::load_module_path,
+  $load_module               = $zabbix::params::load_module,
 
 ) inherits zabbix::params {
 
@@ -255,5 +263,3 @@ class zabbix::proxy (
   Class['zabbix::proxy']
 
 }
-
-

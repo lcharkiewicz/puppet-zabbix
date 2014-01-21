@@ -5,8 +5,8 @@
 ############ GENERAL PARAMETERS #################
 
 ### Option: NodeID
-#       Unique NodeID in distributed setup.
-#       0 - standalone server
+#	Unique NodeID in distributed setup.
+#	0 - standalone server
 #
 # Mandatory: no
 # Range: 0-999
@@ -15,7 +15,7 @@
 NodeID=<%= scope.lookupvar('zabbix::server::node_id') %>
 
 ### Option: ListenPort
-#       Listen port for trapper.
+#	Listen port for trapper.
 #
 # Mandatory: no
 # Range: 1024-32767
@@ -24,7 +24,7 @@ NodeID=<%= scope.lookupvar('zabbix::server::node_id') %>
 ListenPort=<%= scope.lookupvar('zabbix::server::listen_port') %>
 
 ### Option: SourceIP
-#       Source IP address for outgoing connections.
+#	Source IP address for outgoing connections.
 #
 # Mandatory: no
 # Default:
@@ -34,8 +34,8 @@ SourceIP=<%= @source_ip %>
 <% end %>
 
 ### Option: LogFile
-#       Name of log file.
-#       If not set, syslog is used.
+#	Name of log file.
+#	If not set, syslog is used.
 #
 # Mandatory: no
 # Default:
@@ -43,21 +43,22 @@ SourceIP=<%= @source_ip %>
 LogFile=<%= scope.lookupvar('zabbix::server::log_file') %>
 
 ### Option: LogFileSize
-#       Maximum size of log file in MB.
-#       0 - disable automatic log rotation.
+#	Maximum size of log file in MB.
+#	0 - disable automatic log rotation.
 #
 # Mandatory: no
 # Range: 0-1024
 # Default:
+# LogFileSize=1
 LogFileSize=<%= scope.lookupvar('zabbix::server::log_file_size') %>
 
 ### Option: DebugLevel
-#       Specifies debug level
-#       0 - no debug
-#       1 - critical information
-#       2 - error information
-#       3 - warnings
-#       4 - for debugging (produces lots of information)
+#	Specifies debug level
+#	0 - no debug
+#	1 - critical information
+#	2 - error information
+#	3 - warnings
+#	4 - for debugging (produces lots of information)
 #
 # Mandatory: no
 # Range: 0-4
@@ -66,15 +67,17 @@ LogFileSize=<%= scope.lookupvar('zabbix::server::log_file_size') %>
 DebugLevel=<%= scope.lookupvar('zabbix::server::debug_level') %>
 
 ### Option: PidFile
-#       Name of PID file.
+#	Name of PID file.
 #
 # Mandatory: no
 # Default:
+# PidFile=/tmp/zabbix_server.pid
 PidFile=<%= scope.lookupvar('zabbix::server::pid_file') %>
 
 ### Option: DBHost
-#       Database host name.
-#       If set to localhost, socket is used for MySQL.
+#	Database host name.
+#	If set to localhost, socket is used for MySQL.
+#	If set to empty string, socket is used for PostgreSQL.
 #
 # Mandatory: no
 # Default:
@@ -82,8 +85,8 @@ PidFile=<%= scope.lookupvar('zabbix::server::pid_file') %>
 DBHost=<%= scope.lookupvar('zabbix::server::db_host') %>
 
 ### Option: DBName
-#       Database name.
-#       For SQLite3 path to database file must be provided. DBUser and DBPassword are ignored.
+#	Database name.
+#	For SQLite3 path to database file must be provided. DBUser and DBPassword are ignored.
 #
 # Mandatory: yes
 # Default:
@@ -91,15 +94,17 @@ DBHost=<%= scope.lookupvar('zabbix::server::db_host') %>
 DBName=<%= scope.lookupvar('zabbix::server::db_name') %>
 
 ### Option: DBSchema
-#       Schema name. Used for IBM DB2.
+#	Schema name. Used for IBM DB2.
 #
 # Mandatory: no
 # Default:
 # DBSchema=
-DBSchema=<%= scope.lookupvar('zabbix::server::db_schema') %>
+<% if @db_schema %>
+DBSchema=<%= @db_schema %>
+<% end %>
 
 ### Option: DBUser
-#       Database user. Ignored for SQLite.
+#	Database user. Ignored for SQLite.
 #
 # Mandatory: no
 # Default:
@@ -107,8 +112,8 @@ DBSchema=<%= scope.lookupvar('zabbix::server::db_schema') %>
 DBUser=<%= scope.lookupvar('zabbix::server::db_user') %>
 
 ### Option: DBPassword
-#       Database password. Ignored for SQLite.
-#       Comment this line if no password is used.
+#	Database password. Ignored for SQLite.
+#	Comment this line if no password is used.
 #
 # Mandatory: no
 # Default:
@@ -116,14 +121,15 @@ DBUser=<%= scope.lookupvar('zabbix::server::db_user') %>
 DBPassword=<%= scope.lookupvar('zabbix::server::db_password') %>
 
 ### Option: DBSocket
-#       Path to MySQL socket.
+#	Path to MySQL socket.
 #
 # Mandatory: no
 # Default:
+# DBSocket=/tmp/mysql.sock
 DBSocket=<%= scope.lookupvar('zabbix::server::db_socket') %>
 
 ### Option: DBPort
-#       Database port when not using local socket. Ignored for SQLite.
+#	Database port when not using local socket. Ignored for SQLite.
 #
 # Mandatory: no
 # Range: 1024-65535
@@ -134,7 +140,7 @@ DBPort=<%= scope.lookupvar('zabbix::server::db_port') %>
 ############ ADVANCED PARAMETERS ################
 
 ### Option: StartPollers
-#       Number of pre-forked instances of pollers.
+#	Number of pre-forked instances of pollers.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -143,7 +149,7 @@ DBPort=<%= scope.lookupvar('zabbix::server::db_port') %>
 StartPollers=<%= scope.lookupvar('zabbix::server::start_pollers') %>
 
 ### Option: StartIPMIPollers
-#       Number of pre-forked instances of IPMI pollers.
+#	Number of pre-forked instances of IPMI pollers.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -152,7 +158,7 @@ StartPollers=<%= scope.lookupvar('zabbix::server::start_pollers') %>
 StartIPMIPollers=<%= scope.lookupvar('zabbix::server::start_ipmi_pollers') %>
 
 ### Option: StartPollersUnreachable
-#       Number of pre-forked instances of pollers for unreachable hosts (including IPMI).
+#	Number of pre-forked instances of pollers for unreachable hosts (including IPMI).
 #
 # Mandatory: no
 # Range: 0-1000
@@ -161,7 +167,9 @@ StartIPMIPollers=<%= scope.lookupvar('zabbix::server::start_ipmi_pollers') %>
 StartPollersUnreachable=<%= scope.lookupvar('zabbix::server::start_pollers_unreachable') %>
 
 ### Option: StartTrappers
-#       Number of pre-forked instances of trappers.
+#	Number of pre-forked instances of trappers.
+#	Trappers accept incoming connections from Zabbix sender, active agents, active proxies and child nodes.
+#	At least one trapper process must be running to display server availability in the frontend.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -170,7 +178,7 @@ StartPollersUnreachable=<%= scope.lookupvar('zabbix::server::start_pollers_unrea
 StartTrappers=<%= scope.lookupvar('zabbix::server::start_trappers') %>
 
 ### Option: StartPingers
-#       Number of pre-forked instances of ICMP pingers.
+#	Number of pre-forked instances of ICMP pingers.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -179,7 +187,7 @@ StartTrappers=<%= scope.lookupvar('zabbix::server::start_trappers') %>
 StartPingers=<%= scope.lookupvar('zabbix::server::start_pingers') %>
 
 ### Option: StartDiscoverers
-#       Number of pre-forked instances of discoverers.
+#	Number of pre-forked instances of discoverers.
 #
 # Mandatory: no
 # Range: 0-250
@@ -188,7 +196,7 @@ StartPingers=<%= scope.lookupvar('zabbix::server::start_pingers') %>
 StartDiscoverers=<%= scope.lookupvar('zabbix::server::start_discoverers') %>
 
 ### Option: StartHTTPPollers
-#       Number of pre-forked instances of HTTP pollers.
+#	Number of pre-forked instances of HTTP pollers.
 #
 # Mandatory: no
 # Range: 0-1000
@@ -196,9 +204,96 @@ StartDiscoverers=<%= scope.lookupvar('zabbix::server::start_discoverers') %>
 # StartHTTPPollers=1
 StartHTTPPollers=<%= scope.lookupvar('zabbix::server::start_http_pollers') %>
 
+### Option: StartTimers
+#	Number of pre-forked instances of timers.
+#	Timers process time-based trigger functions and maintenance periods.
+#	Only the first timer process handles the maintenance periods.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# StartTimers=1
+StartTimers=<%= scope.lookupvar('zabbix::server::start_timers') %>
+
+### Option: JavaGateway
+#	IP address (or hostname) of Zabbix Java gateway.
+#	Only required if Java pollers are started.
+#
+# Mandatory: no
+# Default:
+# JavaGateway=
+<% if @java_gateway %>
+JavaGateway=<%= @java_gateway %>
+<% end %>
+
+### Option: JavaGatewayPort
+#	Port that Zabbix Java gateway listens on.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# JavaGatewayPort=10052
+JavaGatewayPort=<%= scope.lookupvar('zabbix::server::java_gateway_port') %>
+
+### Option: StartJavaPollers
+#	Number of pre-forked instances of Java pollers.
+#
+# Mandatory: no
+# Range: 0-1000
+# Default:
+# StartJavaPollers=0
+StartJavaPollers=<%= scope.lookupvar('zabbix::server::start_java_pollers') %>
+
+### Option: StartVMwareCollectors
+#	Number of pre-forked vmware collector instances.
+#
+# Mandatory: no
+# Range: 0-250
+# Default:
+# StartVMwareCollectors=0
+StartVMwareCollectors=<%= scope.lookupvar('zabbix::server::start_vmware_collectors') %>
+
+### Option: VMwareFrequency
+#	How often Zabbix will connect to VMware service to obtain a new data.
+#
+# Mandatory: no
+# Range: 10-86400
+# Default:
+# VMwareFrequency=60
+VMwareFrequency=<%= scope.lookupvar('zabbix::server::vmware_frequency') %>
+
+### Option: VMwareCacheSize
+#	Size of VMware cache, in bytes.
+#	Shared memory size for storing VMware data.
+#	Only used if VMware collectors are started.
+#
+# Mandatory: no
+# Range: 256K-2G
+# Default:
+# VMwareCacheSize=8M
+VMwareCacheSize=<%= scope.lookupvar('zabbix::server::vmware_cache_size') %>
+
+### Option: SNMPTrapperFile
+#	Temporary file used for passing data from SNMP trap daemon to the server.
+#	Must be the same as in zabbix_trap_receiver.pl or SNMPTT configuration file.
+#
+# Mandatory: no
+# Default:
+# SNMPTrapperFile=/tmp/zabbix_traps.tmp
+SNMPTrapperFile=<%= scope.lookupvar('zabbix::server::snmp_trapper_file') %>
+
+### Option: StartSNMPTrapper
+#	If 1, SNMP trapper process is started.
+#
+# Mandatory: no
+# Range: 0-1
+# Default:
+# StartSNMPTrapper=0
+StartSNMPTrapper=<%= scope.lookupvar('zabbix::server::start_snmp_trapper') %>
+
 ### Option: ListenIP
-#       List of comma delimited IP addresses that the trapper should listen on.
-#       Trapper will listen on all network interfaces if this parameter is missing.
+#	List of comma delimited IP addresses that the trapper should listen on.
+#	Trapper will listen on all network interfaces if this parameter is missing.
 #
 # Mandatory: no
 # Default:
@@ -206,8 +301,8 @@ StartHTTPPollers=<%= scope.lookupvar('zabbix::server::start_http_pollers') %>
 ListenIP=<%= scope.lookupvar('zabbix::server::listen_ip') %>
 
 ### Option: HousekeepingFrequency
-#       How often Zabbix will perform housekeeping procedure (in hours).
-#       Housekeeping is removing unnecessary information from history, alert, and alarms tables.
+#	How often Zabbix will perform housekeeping procedure (in hours).
+#	Housekeeping is removing unnecessary information from history, alert, and alarms tables.
 #
 # Mandatory: no
 # Range: 1-24
@@ -216,12 +311,12 @@ ListenIP=<%= scope.lookupvar('zabbix::server::listen_ip') %>
 HousekeepingFrequency=<%= scope.lookupvar('zabbix::server::housekeeping_frequency') %>
 
 ### Option: MaxHousekeeperDelete
-#       The table "housekeeper" contains "tasks" for housekeeping procedure in the format:
-#       [housekeeperid], [tablename], [field], [value].
-#       No more than 'MaxHousekeeperDelete' rows (corresponding to [tablename], [field], [value])
-#       will be deleted per one task in one housekeeping cycle.
-#       SQLite3 does not use this parameter, deletes all corresponding rows without a limit.
-#       If set to 0 then no limit is used at all. In this case you must know what you are doing!
+#	The table "housekeeper" contains "tasks" for housekeeping procedure in the format:
+#	[housekeeperid], [tablename], [field], [value].
+#	No more than 'MaxHousekeeperDelete' rows (corresponding to [tablename], [field], [value])
+#	will be deleted per one task in one housekeeping cycle.
+#	SQLite3 does not use this parameter, deletes all corresponding rows without a limit.
+#	If set to 0 then no limit is used at all. In this case you must know what you are doing!
 #
 # Mandatory: no
 # Range: 0-1000000
@@ -229,17 +324,8 @@ HousekeepingFrequency=<%= scope.lookupvar('zabbix::server::housekeeping_frequenc
 # MaxHousekeeperDelete=500
 MaxHousekeeperDelete=<%= scope.lookupvar('zabbix::server::max_housekeeper_delete') %>
 
-### Option: DisableHousekeeping
-#       If set to 1, disables housekeeping.
-#
-# Mandatory: no
-# Range: 0-1
-# Default:
-# DisableHousekeeping=0
-DisableHousekeeping=<%= scope.lookupvar('zabbix::server::disable_housekeeping') %>
-
 ### Option: SenderFrequency
-#       How often Zabbix will try to send unsent alerts (in seconds).
+#	How often Zabbix will try to send unsent alerts (in seconds).
 #
 # Mandatory: no
 # Range: 5-3600
@@ -248,17 +334,17 @@ DisableHousekeeping=<%= scope.lookupvar('zabbix::server::disable_housekeeping') 
 SenderFrequency=<%= scope.lookupvar('zabbix::server::sender_frequency') %>
 
 ### Option: CacheSize
-#       Size of configuration cache, in bytes.
-#       Shared memory size for storing hosts and items data.
+#	Size of configuration cache, in bytes.
+#	Shared memory size for storing host, item and trigger data.
 #
 # Mandatory: no
-# Range: 128K-1G
+# Range: 128K-2G
 # Default:
 # CacheSize=8M
 CacheSize=<%= scope.lookupvar('zabbix::server::cache_size') %>
 
 ### Option: CacheUpdateFrequency
-#       How often Zabbix will perform update of configuration cache, in seconds.
+#	How often Zabbix will perform update of configuration cache, in seconds.
 #
 # Mandatory: no
 # Range: 1-3600
@@ -267,7 +353,7 @@ CacheSize=<%= scope.lookupvar('zabbix::server::cache_size') %>
 CacheUpdateFrequency=<%= scope.lookupvar('zabbix::server::cache_update_frequency') %>
 
 ### Option: StartDBSyncers
-#       Number of pre-forked instances of DB Syncers
+#	Number of pre-forked instances of DB Syncers
 #
 # Mandatory: no
 # Range: 1-100
@@ -276,38 +362,49 @@ CacheUpdateFrequency=<%= scope.lookupvar('zabbix::server::cache_update_frequency
 StartDBSyncers=<%= scope.lookupvar('zabbix::server::start_db_syncers') %>
 
 ### Option: HistoryCacheSize
-#       Size of history cache, in bytes.
-#       Shared memory size for storing history data.
+#	Size of history cache, in bytes.
+#	Shared memory size for storing history data.
 #
 # Mandatory: no
-# Range: 128K-1G
+# Range: 128K-2G
 # Default:
 # HistoryCacheSize=8M
 HistoryCacheSize=<%= scope.lookupvar('zabbix::server::history_cache_size') %>
 
 ### Option: TrendCacheSize
-#       Size of trend cache, in bytes.
-#       Shared memory size for storing trends data.
+#	Size of trend cache, in bytes.
+#	Shared memory size for storing trends data.
 #
 # Mandatory: no
-# Range: 128K-1G
+# Range: 128K-2G
 # Default:
 # TrendCacheSize=4M
 TrendCacheSize=<%= scope.lookupvar('zabbix::server::trend_cache_size') %>
 
 ### Option: HistoryTextCacheSize
-#       Size of text history cache, in bytes.
-#       Shared memory size for storing character, text or log history data.
+#	Size of text history cache, in bytes.
+#	Shared memory size for storing character, text or log history data.
 #
 # Mandatory: no
-# Range: 128K-1G
+# Range: 128K-2G
 # Default:
 # HistoryTextCacheSize=16M
 HistoryTextCacheSize=<%= scope.lookupvar('zabbix::server::history_text_cache_size') %>
 
+### Option: ValueCacheSize
+#	Size of history value cache, in bytes.
+#	Shared memory size for caching item history data requests
+#	Setting to 0 disables value cache.
+#
+# Mandatory: no
+# Range: 0,128K-64G
+# Default:
+# ValueCacheSize=8M
+ValueCacheSize=<%= scope.lookupvar('zabbix::server::value_cache_size') %>
+
 ### Option: NodeNoEvents
-#       If set to '1' local events won't be sent to master node.
-#       This won't impact ability of this node to propagate events from its child nodes.
+#	If set to '1' local events won't be sent to master node.
+#	This won't impact ability of this node to propagate events from its child nodes.
 #
 # Mandatory: no
 # Range: 0-1
@@ -316,8 +413,8 @@ HistoryTextCacheSize=<%= scope.lookupvar('zabbix::server::history_text_cache_siz
 NodeNoEvents=<%= scope.lookupvar('zabbix::server::node_no_events') %>
 
 ### Option: NodeNoHistory
-#       If set to '1' local history won't be sent to master node.
-#       This won't impact ability of this node to propagate history from its child nodes.
+#	If set to '1' local history won't be sent to master node.
+#	This won't impact ability of this node to propagate history from its child nodes.
 #
 # Mandatory: no
 # Range: 0-1
@@ -326,7 +423,7 @@ NodeNoEvents=<%= scope.lookupvar('zabbix::server::node_no_events') %>
 NodeNoHistory=<%= scope.lookupvar('zabbix::server::node_no_history') %>
 
 ### Option: Timeout
-#       Specifies how long we wait for agent, SNMP device or external check (in seconds).
+#	Specifies how long we wait for agent, SNMP device or external check (in seconds).
 #
 # Mandatory: no
 # Range: 1-30
@@ -335,7 +432,7 @@ NodeNoHistory=<%= scope.lookupvar('zabbix::server::node_no_history') %>
 Timeout=<%= scope.lookupvar('zabbix::server::timeout') %>
 
 ### Option: TrapperTimeout
-#       Specifies how many seconds trapper may spend processing new data.
+#	Specifies how many seconds trapper may spend processing new data.
 #
 # Mandatory: no
 # Range: 1-300
@@ -344,7 +441,7 @@ Timeout=<%= scope.lookupvar('zabbix::server::timeout') %>
 TrapperTimeout=<%= scope.lookupvar('zabbix::server::trapper_timeout') %>
 
 ### Option: UnreachablePeriod
-#       After how many seconds of unreachability treat a host as unavailable.
+#	After how many seconds of unreachability treat a host as unavailable.
 #
 # Mandatory: no
 # Range: 1-3600
@@ -353,7 +450,7 @@ TrapperTimeout=<%= scope.lookupvar('zabbix::server::trapper_timeout') %>
 UnreachablePeriod=<%= scope.lookupvar('zabbix::server::unreachable_period') %>
 
 ### Option: UnavailableDelay
-#       How often host is checked for availability during the unavailability period, in seconds.
+#	How often host is checked for availability during the unavailability period, in seconds.
 #
 # Mandatory: no
 # Range: 1-3600
@@ -362,7 +459,7 @@ UnreachablePeriod=<%= scope.lookupvar('zabbix::server::unreachable_period') %>
 UnavailableDelay=<%= scope.lookupvar('zabbix::server::unavailable_delay') %>
 
 ### Option: UnreachableDelay
-#       How often host is checked for availability during the unreachability period, in seconds.
+#	How often host is checked for availability during the unreachability period, in seconds.
 #
 # Mandatory: no
 # Range: 1-3600
@@ -371,24 +468,26 @@ UnavailableDelay=<%= scope.lookupvar('zabbix::server::unavailable_delay') %>
 UnreachableDelay=<%= scope.lookupvar('zabbix::server::unreachable_delay') %>
 
 ### Option: AlertScriptsPath
-#       Location of custom alert scripts
+#	Full path to location of custom alert scripts.
+#	Default depends on compilation options.
 #
 # Mandatory: no
 # Default:
-# AlertScriptsPath=/var/lib/zabbix/
+# AlertScriptsPath=${datadir}/zabbix/alertscripts
 AlertScriptsPath=<%= scope.lookupvar('zabbix::server::alert_scripts_path') %>
 
 ### Option: ExternalScripts
-#       Location of external scripts
+#	Full path to location of external scripts.
+#	Default depends on compilation options.
 #
 # Mandatory: no
 # Default:
-# ExternalScripts=/etc/zabbix/externalscripts
+# ExternalScripts=${datadir}/zabbix/externalscripts
 ExternalScripts=<%= scope.lookupvar('zabbix::server::external_scripts') %>
 
 ### Option: FpingLocation
-#       Location of fping.
-#       Make sure that fping binary has root ownership and SUID flag set.
+#	Location of fping.
+#	Make sure that fping binary has root ownership and SUID flag set.
 #
 # Mandatory: no
 # Default:
@@ -396,9 +495,9 @@ ExternalScripts=<%= scope.lookupvar('zabbix::server::external_scripts') %>
 FpingLocation=<%= scope.lookupvar('zabbix::server::fping_location') %>
 
 ### Option: Fping6Location
-#       Location of fping6.
-#       Make sure that fping6 binary has root ownership and SUID flag set.
-#       Make empty if your fping utility is capable to process IPv6 addresses.
+#	Location of fping6.
+#	Make sure that fping6 binary has root ownership and SUID flag set.
+#	Make empty if your fping utility is capable to process IPv6 addresses.
 #
 # Mandatory: no
 # Default:
@@ -406,7 +505,7 @@ FpingLocation=<%= scope.lookupvar('zabbix::server::fping_location') %>
 Fping6Location=<%= scope.lookupvar('zabbix::server::fping6_location') %>
 
 ### Option: SSHKeyLocation
-#       Location of public and private keys for SSH checks
+#	Location of public and private keys for SSH checks and actions.
 #
 # Mandatory: no
 # Default:
@@ -416,8 +515,9 @@ SSHKeyLocation=<%= @ssh_key_location %>
 <% end %>
 
 ### Option: LogSlowQueries
-#       How long a database query may take before being logged (in milliseconds).
-#       0 - don't log slow queries.
+#	How long a database query may take before being logged (in milliseconds).
+#	Only works if DebugLevel set to 3 or 4.
+#	0 - don't log slow queries.
 #
 # Mandatory: no
 # Range: 1-3600000
@@ -426,27 +526,15 @@ SSHKeyLocation=<%= @ssh_key_location %>
 LogSlowQueries=<%= scope.lookupvar('zabbix::server::log_slow_queries') %>
 
 ### Option: TmpDir
-#       Temporary directory.
+#	Temporary directory.
 #
 # Mandatory: no
 # Default:
 # TmpDir=/tmp
 TmpDir=<%= scope.lookupvar('zabbix::server::tmp_dir') %>
 
-### Option: Include
-#       You may include individual files or all files in a directory in the configuration file.
-#
-# Mandatory: no
-# Default:
-# Include=
-# Include=/etc/zabbix/zabbix_server.general.conf
-# Include=/etc/zabbix/zabbix_server/
-<% if @include %>
-Include=<%= @include %>
-<% end %>
-
 ### Option: StartProxyPollers
-#       Number of pre-forked instances of pollers for passive proxies.
+#	Number of pre-forked instances of pollers for passive proxies.
 #
 # Mandatory: no
 # Range: 0-250
@@ -455,8 +543,8 @@ Include=<%= @include %>
 StartProxyPollers=<%= scope.lookupvar('zabbix::server::start_proxy_pollers') %>
 
 ### Option: ProxyConfigFrequency
-#       How often Zabbix Server sends configuration data to a Zabbix Proxy in seconds.
-#       This parameter is used only for proxies in the passive mode.
+#	How often Zabbix Server sends configuration data to a Zabbix Proxy in seconds.
+#	This parameter is used only for proxies in the passive mode.
 #
 # Mandatory: no
 # Range: 1-3600*24*7
@@ -465,11 +553,60 @@ StartProxyPollers=<%= scope.lookupvar('zabbix::server::start_proxy_pollers') %>
 ProxyConfigFrequency=<%= scope.lookupvar('zabbix::server::proxy_config_frequency') %>
 
 ### Option: ProxyDataFrequency
-#       How often Zabbix Server requests history data from a Zabbix Proxy in seconds.
-#       This parameter is used only for proxies in the passive mode.
+#	How often Zabbix Server requests history data from a Zabbix Proxy in seconds.
+#	This parameter is used only for proxies in the passive mode.
 #
 # Mandatory: no
 # Range: 1-3600
 # Default:
 # ProxyDataFrequency=1
 ProxyDataFrequency=<%= scope.lookupvar('zabbix::server::proxy_data_frequency') %>
+
+### Option: AllowRoot
+#	Allow the server to run as 'root'. If disabled and the server is started by 'root', the server
+#	will try to switch to user 'zabbix' instead. Has no effect if started under a regular user.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Default:
+# AllowRoot=0
+AllowRoot=<%= scope.lookupvar('zabbix::server::allow_root') %>
+
+### Option: Include
+#	You may include individual files or all files in a directory in the configuration file.
+#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#
+# Mandatory: no
+# Default:
+# Include=
+# Include=/usr/local/etc/zabbix_server.general.conf
+# Include=/usr/local/etc/zabbix_server.conf.d/
+<% if @include %>
+Include=<%= @include %>
+<% end %>
+
+####### LOADABLE MODULES #######
+
+### Option: LoadModulePath
+#	Full path to location of server modules.
+#	Default depends on compilation options.
+#
+# Mandatory: no
+# Default:
+# LoadModulePath=${libdir}/modules
+LoadModulePath=<%= scope.lookupvar('zabbix::server::load_module_path') %>
+
+### Option: LoadModule
+#	Module to load at server startup. Modules are used to extend functionality of the server.
+#	Format: LoadModule=<module.so>
+#	The modules must be located in directory specified by LoadModulePath.
+#	It is allowed to include multiple LoadModule parameters.
+#
+# Mandatory: no
+# Default:
+# LoadModule=
+<% if @load_module %>
+<% load_module.each do |parameter| %>LoadModule=<%= parameter %>
+<% end %>
+<% end %>

@@ -21,11 +21,13 @@ class zabbix::web (
   $server_name = $::fqdn,
   $server_aliases = undef,
   $db_type = 'mysql',
+  $php_settings = false,
+  $php_timezone = undef,
 ) {
 
   $package = $db_type ? {
-    'mysql' => 'zabbix20-web-mysql',
-    'pgsql' => 'zabbix20-web-pgsql',
+    'mysql' => 'zabbix-web-mysql',
+    'pgsql' => 'zabbix-web-pgsql',
   }
 
   package { $package:
