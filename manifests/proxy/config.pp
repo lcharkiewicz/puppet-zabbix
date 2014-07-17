@@ -16,7 +16,7 @@ class zabbix::proxy::config {
   }
 
   # I know it could be much simpler, but this is only for Red Hat family
-  if $::operatingsystem =~ /(RedHat|CentOS|Fedora)/ {
+  if $::operatingsystem =~ /(RedHat|CentOS|Fedora|SLC)/ {
     if $zabbix::proxy::is_20_version {
       $proxy_config_file = $zabbix::params::proxy20_config_file
       $proxy_config_template = $zabbix::params::proxy20_config_template
