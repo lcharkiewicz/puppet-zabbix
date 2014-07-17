@@ -126,7 +126,7 @@ class zabbix::params {
     /(Ubuntu|Debian)/: {
       $db_socket = '/var/run/mysqld/mysqld.sock'
     }
-    /(RedHat|CentOS|Fedora)/: {
+    /(RedHat|CentOS|Fedora|SLC)/: {
       $db_socket = '/var/lib/mysql/mysql.sock'
     }
     default: {

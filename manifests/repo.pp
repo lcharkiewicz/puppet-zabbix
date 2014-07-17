@@ -37,7 +37,7 @@ class zabbix::repo {
 
   case $::operatingsystem {
 
-    /(RedHat|CentOS|Fedora)/: {
+    /(RedHat|CentOS|Fedora|SLC)/: {
       yumrepo{ 'zabbix':
         descr    => "Zabbix Official Repository - ${::architecture}",
         baseurl  => 'http://repo.zabbix.com/zabbix/2.2/rhel/6/$basearch/',
